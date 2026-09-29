@@ -1,0 +1,39 @@
+{#- Cookie consent. Scripts that need consent: <script type="text/plain" data-consent="statistics|marketing|preferences" ...>
+    assets/consent.js activates them after opt-in. -#}
+<section id="consent" class="consent" role="dialog" aria-modal="false" aria-labelledby="consent-title" aria-describedby="consent-msg" hidden>
+  <div class="flex items-start justify-between gap-4">
+    <h2 id="consent-title" class="t-h3">{{ consent.title }}</h2>
+  </div>
+  <p id="consent-msg" class="consent-msg mt-3">{{ consent.message }}</p>
+
+  <div class="consent-cats mt-5" hidden>
+    <div class="consent-cat">
+      <div class="consent-cat-head">
+        <button type="button" class="consent-more" aria-expanded="false" aria-controls="cc-d-functional">{{ consent.functional.label }}</button>
+        <span class="consent-always">{{ consent.functional.always }}</span>
+      </div>
+      <p id="cc-d-functional" class="consent-desc" hidden>{{ consent.functional.text }}</p>
+    </div>
+{% for cat in ["preferences", "statistics", "marketing"] %}
+    <div class="consent-cat">
+      <div class="consent-cat-head">
+        <button type="button" class="consent-more" aria-expanded="false" aria-controls="cc-d-{{ cat }}">{{ consent[cat].label }}</button>
+        <label class="consent-switch"><input type="checkbox" data-cat="{{ cat }}"><span aria-hidden="true"></span><span class="sr-only">{{ consent[cat].label }}</span></label>
+      </div>
+      <p id="cc-d-{{ cat }}" class="consent-desc" hidden>{{ consent[cat].text }}</p>
+    </div>
+{% endfor %}
+  </div>
+
+  {#- Accept and Deny carry the same visual weight on purpose (no nudging towards "Accept") #}
+  <div class="mt-6 grid grid-cols-2 gap-2">
+    <button type="button" class="btn btn-primary !h-11 !px-4" data-consent-action="accept">{{ consent.accept }}</button>
+    <button type="button" class="btn btn-primary !h-11 !px-4" data-consent-action="deny">{{ consent.deny }}</button>
+    <button type="button" class="btn btn-outline col-span-2 !h-11 !px-4" data-consent-action="view">{{ consent.view }}</button>
+    <button type="button" class="btn btn-outline col-span-2 !h-11 !px-4" data-consent-action="save" hidden>{{ consent.save }}</button>
+  </div>
+  <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[0.85rem] text-muted">
+    <li><a href="/datenschutz" class="underline underline-offset-2 hover:text-ink">{{ consent.privacy_label }}</a></li>
+    <li><a href="/impressum" class="underline underline-offset-2 hover:text-ink">{{ consent.imprint_label }}</a></li>
+  </ul>
+</section>

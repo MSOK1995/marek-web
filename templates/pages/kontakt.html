@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "partials/macros.html" import booking %}
+{% block main %}
+<section class="hero hero-sub">
+  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+  <div class="hero-inner">
+    <div class="wrap grid gap-8 lg:grid-cols-12 lg:items-end">
+      <h1 class="t-hero lg:col-span-7">{{ page.hero.heading }}</h1>
+      <div class="flex flex-col gap-6 lg:col-span-5 lg:items-start">
+        <p class="t-lead !text-white">{{ page.hero.text }}</p>
+        {{ booking("btn btn-primary self-start") }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap grid gap-px bg-line p-px md:grid-cols-3">
+    <div class="rv flex flex-col bg-paper p-8 sm:p-10">
+      <svg class="text-bronze" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <p class="t-h3 mt-8">{{ site.name }}</p>
+      <p class="t-small mt-2 flex-1">{{ site.address }}</p>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query={{ site.address | urlq }}" target="_blank" rel="noopener" class="link mt-8 self-start">{{ page.maps_label }}
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 9l6-6M4 3h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <a href="tel:{{ site.phone | tel }}" class="rv group flex flex-col bg-paper p-8 transition-colors duration-500 hover:bg-sand sm:p-10" style="--d:.08s">
+      <svg class="text-bronze" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>
+      <p class="t-small mt-8">{{ page.phone_label }}</p>
+      <p class="t-h3 num mt-1">{{ site.phone }}</p>
+    </a>
+    <a href="mailto:{{ site.email }}" class="rv group flex flex-col bg-paper p-8 transition-colors duration-500 hover:bg-sand sm:p-10" style="--d:.16s">
+      <svg class="text-bronze" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg>
+      <p class="t-small mt-8">{{ page.email_label }}</p>
+      <p class="t-h3 mt-1 break-all">{{ site.email }}</p>
+    </a>
+  </div>
+</section>
+{% endblock %}

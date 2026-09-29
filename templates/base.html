@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de"{% if site.theme and site.theme != "sand" %} data-theme="{{ site.theme }}"{% endif %}>
+<head>
+<meta charset="utf-8">
+{% if noindex %}
+<meta name="robots" content="{{ noindex }}">
+{% endif %}
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ full_title }}</title>
+<meta name="description" content="{{ page.description }}">
+<meta property="og:title" content="{{ full_title }}">
+<meta property="og:description" content="{{ page.description }}">
+<meta property="og:type" content="website">
+{% if canonical %}
+<meta property="og:url" content="{{ canonical }}">
+<link rel="canonical" href="{{ canonical }}">
+{% endif %}
+<meta property="og:image" content="{{ origin }}{{ site.og_image }}">
+<meta name="theme-color" content="{{ theme_color }}">
+<link rel="icon" href="{{ site.logo }}">
+<link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/tw.css">
+</head>
+<body class="{{ 'has-hero' if hero else '' }}">
+{% include "partials/header.html" %}
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+{% include "partials/footer.html" %}
+{% include "partials/consent.html" %}
+<script src="/assets/site.js"></script>
+<script src="/assets/consent.js"></script>
+</body>
+</html>

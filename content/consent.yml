@@ -1,0 +1,23 @@
+# Cookie-Banner. Texte = deutsche Complianz-Standardtexte in Du-Form.
+title: Zustimmung verwalten
+message: Um dir ein optimales Erlebnis zu bieten, verwenden wir Technologien wie Cookies, um Geräteinformationen zu speichern und/oder darauf zuzugreifen. Wenn du diesen Technologien zustimmst, können wir Daten wie das Surfverhalten oder eindeutige IDs auf dieser Website verarbeiten. Wenn du deine Zustimmung nicht erteilst oder zurückziehst, können bestimmte Merkmale und Funktionen beeinträchtigt werden.
+functional:
+  label: Funktional
+  always: Immer aktiv
+  text: Die technische Speicherung oder der Zugang ist unbedingt erforderlich für den rechtmäßigen Zweck, die Nutzung eines bestimmten Dienstes zu ermöglichen, der vom Teilnehmer oder Nutzer ausdrücklich gewünscht wird, oder für den alleinigen Zweck, die Übertragung einer Nachricht über ein elektronisches Kommunikationsnetz durchzuführen.
+preferences:
+  label: Vorlieben
+  text: Die technische Speicherung oder der Zugriff ist für den rechtmäßigen Zweck der Speicherung von Präferenzen erforderlich, die nicht vom Abonnenten oder Benutzer angefordert wurden.
+statistics:
+  label: Statistiken
+  text: Die technische Speicherung oder der Zugriff, der ausschließlich zu statistischen Zwecken erfolgt.
+marketing:
+  label: Marketing
+  text: Die technische Speicherung oder der Zugriff ist erforderlich, um Nutzerprofile zu erstellen, um Werbung zu versenden oder um den Nutzer auf einer Website oder über mehrere Websites hinweg zu ähnlichen Marketingzwecken zu verfolgen.
+accept: Akzeptieren
+deny: Ablehnen
+view: Einstellungen ansehen
+save: Einstellungen speichern
+privacy_label: Datenschutzerklärung
+imprint_label: Impressum
+footer_link: Zustimmung verwalten

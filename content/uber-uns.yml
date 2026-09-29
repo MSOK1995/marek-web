@@ -1,0 +1,21 @@
+title: Über Uns
+description: Über Uns – Mgr. Marek Sukenik, MSc., Master of Science in Chiropractic (Chiropractor) und Physiotherapeut bei The Chiropractor Wien.
+
+hero:
+  image: /img/hero-wide.jpg
+  image_alt: Chiropraktische Behandlung
+  heading: Wir unterstützen Menschen dabei, zu einem schmerzfreien und erfüllten Leben zurückzufinden.
+  text: Unsere Gesundheitsphilosophie geht über die Behandlung von Schmerzen hinaus – wir konzentrieren uns auf das ganzheitliche Wohlbefinden, die Steigerung der Lebensenergie, die psychische Widerstandskraft und die Fähigkeit, jeden Tag in vollen Zügen zu genießen.
+
+people:
+  - name: Mgr. Marek Sukenik, MSc.
+    image: /img/marek.jpg
+    image_alt: Mgr. Marek Sukenik, MSc.
+    titles:
+      - Master of Science in Chiropractic (Chiropractor)
+      - Physiotherapeut
+    bio_heading: Über mich
+    bio_lead: Chiropraktik ist für mich weit mehr als ein Beruf. Sie ist meine Leidenschaft und Ausdruck meiner Überzeugung, dass Gesundheit weit mehr bedeutet als die Abwesenheit von Schmerzen.
+    bio: |-
+      <p>Als ehemaliger Leistungssportler habe ich früh erfahren, wie wichtig Bewegung, Regeneration, Belastbarkeit und das Zusammenspiel des gesamten Körpers für Leistungsfähigkeit und Lebensqualität sind. Diese Erfahrungen haben meinen beruflichen Weg entscheidend geprägt.</p><p>Meine fachliche Grundlage bildet ein umfassendes Studium der Chiropraktik mit dem Abschluss <strong>Master of Science in Chiropractic</strong>. Ergänzt wird mein Hintergrund durch ein Studium der <strong>Physiotherapie</strong> sowie durch Weiterbildungen und Erfahrungen im Bereich der <strong>Energetik</strong>. Dadurch hat sich mein Verständnis für Bewegung, Regulation, Körperwahrnehmung und ganzheitliche Zusammenhänge zusätzlich vertieft.</p><p>Regelmäßige <strong>Fort- und Weiterbildungen weltweit</strong> sowie der internationale Austausch sind für mich ein wesentlicher Bestandteil meiner Arbeit. Professionalität bedeutet für mich, niemals stehen zu bleiben, Wissen kontinuierlich zu vertiefen und moderne chiropraktische Ansätze verantwortungsvoll in die tägliche Praxis zu integrieren.</p><p>Im Mittelpunkt steht für mich immer der Mensch. Jeder bringt seine eigene Geschichte, seine Beschwerden und seine persönlichen Ziele mit. Deshalb lege ich großen Wert auf Vertrauen, Respekt, eine offene Atmosphäre und eine individuell abgestimmte Betreuung.</p><p>Ein besonderer Mittelpunkt meines Lebens ist meine Familie. <strong>Meine Familie ist mein Rückgrat.</strong> Sie gibt mir Kraft, Stabilität und erinnert mich daran, was wirklich zählt: Liebe, Vertrauen, Gesundheit und gemeinsame Zeit. Diese Werte prägen auch meinen Umgang mit den Menschen in meiner Praxis.</p><p>Mich fasziniert die Fähigkeit des Körpers, sich anzupassen, zu regulieren und auf Veränderungen zu reagieren. Mein Ziel ist es, funktionelle Einschränkungen zu erkennen, die natürlichen Regulationsprozesse des Körpers zu unterstützen und Menschen nicht nur bei Beschwerden, sondern auch im Bereich Prävention, Beweglichkeit und Wohlbefinden zu begleiten.</p>
+    statement: THE CHIROPRACTOR WIEN steht für Kompetenz, Qualität, Professionalität, Vertrauen und die Leidenschaft, Menschen auf ihrem individuellen Weg zu mehr Bewegungsfreiheit, Wohlbefinden und Lebensqualität zu begleiten.

@@ -1,0 +1,17 @@
+{% macro booking(cls="btn btn-primary", style="") -%}
+<a href="{{ site.booking_url }}" target="_blank" rel="noopener" class="{{ cls }}"{% if style %} style="{{ style }}"{% endif %}>{{ site.booking_label }}
+  {% include "partials/arrow.html" %}
+</a>
+{%- endmacro %}
+
+{% macro steps(tag="h3") -%}
+<ol class="wrap grid gap-12 lg:grid-cols-3 lg:gap-10">
+{% for s in site.steps %}
+  <li class="rv border-t border-ink pt-8"{{ delay(loop.index0, 0.12) }}>
+    <span class="t-hero num block !font-light text-bronze">{{ loop.index }}</span>
+    <{{ tag }} class="t-h3 mt-8">{{ s.title }}</{{ tag }}>
+    <p class="t-small mt-3 max-w-[40ch]">{{ s.text }}</p>
+  </li>
+{% endfor %}
+</ol>
+{%- endmacro %}

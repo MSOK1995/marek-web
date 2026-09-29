@@ -1,0 +1,20 @@
+// PRODUCTION config for thechiropractor.at — NOT deployed yet (the domain is still on IONOS).
+// Build:   python build.py --prod
+// Deploy:  npx wrangler deploy -c wrangler.prod.jsonc   (only after the domain is on Cloudflare)
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "thechiropractor-at",
+  "compatibility_date": "2026-09-25",
+  // no public *.workers.dev copy of the production site
+  "workers_dev": false,
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+  // After the domain's nameservers point to Cloudflare, add:
+  // "routes": [
+  //   { "pattern": "thechiropractor.at", "custom_domain": true },
+  //   { "pattern": "www.thechiropractor.at", "custom_domain": true }
+  // ]
+}

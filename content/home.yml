@@ -1,0 +1,146 @@
+title: The Chiropractor Wien
+description: Vitalistische Chiropraktik in Wien – The Chiropractor Wien, Joanelligasse 10/11, 1060 Wien. Termin online buchen.
+
+hero:
+  slides:
+    - quote: '"Die Kraft, die den Körper erschafft, heilt den Körper. Es geschieht auf keine andere Weise."'
+      author: B.J. Palmer
+      image: /img/justierung.jpg
+      image_position: ''
+      long: false
+    - quote: '"Medicine is the study of disease and what causes man to die. Chiropractic is the study of health and what causes man to live."'
+      author: B.J. Palmer
+      image: /img/hero-wide.jpg
+      image_position: ''
+      long: true
+    - quote: Das Leben ist ein Prozess und kein Ereignis, genau so wie dein Heilungsprozess.
+      author: ''
+      image: /img/t-div.jpg
+      image_position: 50% 30%
+      long: false
+  heading: Healing is a natural process
+  lead: Die beste Entscheidung für deine Gesundheit.
+
+philosophy:
+  label: Unsere Philosophie
+  heading: Entfalte dein volles Potenzial.
+  text: Die Chiropraktik ist ein ganzheitliches, manuelles Diagnose- und Behandlungskonzept, das die Ursachen von Beschwerden diagnostiziert. Ihr Ziel ist es, Funktions- und Bewegungsstörungen im Körper zu erkennen. Da unser Körper ein selbstheilender und selbstregulierender Organismus ist, unterstützen wir ihn mit unserer Behandlung in diesem natürlichen Prozess.
+
+experience:
+  heading: Erfahrung, Können und Wissen verbinden sich bei The Chiropractor Wien
+  text: In unserer Praxis wollen wir das Bewusstsein fördern, dass der menschliche Körper als integraler Bestandteil der Natur ein lebendiger, selbstregulierender und selbstheilender Organismus ist. In unserer Arbeit fokussieren wir uns auf das Auffinden und Korrigieren von Störungen, die die natürlichen Funktionen des Körpers beeinträchtigen.
+
+quote:
+  show: true
+  text: '"Medicine is the study of disease and what causes man to die. Chiropractic is the study of health and what causes man to live."'
+  author: B.J. Palmer
+
+chiro:
+  image: /img/hero-1.jpg
+  image_alt: Chiropraktische Untersuchung der Halswirbelsäule
+  label: Chiropraktik vom Chiropraktor
+  heading: Von Kopf bis Fuß in sicheren Händen
+  text: Gesundheit ist vielmehr ein Zustand der vollen Funktionsfähigkeit deines Nervensystem und damit optimaler Regulationsfähigkeit des gesamten Körpers.
+  link_label: Erfahre mehr
+  link_url: /chiropraktik#vitalistische
+  gallery:
+    - image: /img/tech-1.png
+      alt: Chiropraktische Technik
+    - image: /img/tech-2.png
+      alt: Chiropraktische Technik
+    - image: /img/tech-3.png
+      alt: Funktionelle Neurologie
+
+statement: Bei The CHIROPRACTOR erfährst du eine neue Art der Gesundheitspflege.
+
+groups:
+  heading: 'Chiropraktik kann Menschen in jeder Lebenslage bereichern:'
+  items:
+    - Babies
+    - Kinder
+    - Erwachsene
+    - Schwangere
+    - Sportler*innen
+    - Senior*innen
+
+effects:
+  heading: 'Folgendes wird durch Chiropraktik positiv beeinflusst:'
+  items:
+    - label: Stimmung
+      icon: stimmung
+    - label: Haltung
+      icon: haltung
+    - label: Immunsystem
+      icon: immunsystem
+    - label: Energie
+      icon: energie
+    - label: Stress
+      icon: stress
+    - label: Beweglichkeit
+      icon: beweglichkeit
+    - label: Verdauung
+      icon: verdauung
+    - label: Kardiovaskuläres System
+      icon: herz
+    - label: Schlaf
+      icon: schlaf
+
+benefits:
+  heading: 'Andere Vorteile der chiropraktischen Behandlung:'
+  items:
+    - image: /img/b-1.jpg
+      title: Gesteigerte Leistungsfähigkeit
+      text: Chiropraktik löst muskuläre Verspannungen und verbessert die Kommunikation zwischen Gehirn und Körper, wodurch Konzentration, Klarheit und geistige Vitalität im Alltag spürbar gesteigert werden.
+    - image: /img/b-2.jpg
+      title: Beschwerdefreiheit
+      text: Mit gezielten Justierungen zielt die Chiropraktik darauf ab, nicht nur Symptome zu lindern, sondern auch deren Ursachen zu beheben, was zu einer deutlichen Schmerzreduktion und einer gesteigerten Lebensqualität beiträgt.
+    - image: /img/b-3.jpg
+      title: Verbesserte Schlafqualität
+      text: Die Chiropraktik unterstützt durch die Harmonisierung des Nervensystems und die Lösung von Spannungen im Körper eine bessere Schlafqualität, indem sie häufige Schlafstörungen reduziert.
+    - image: /img/b-4.jpg
+      title: Mehr Bewegungsfreiheit
+      text: Chiropraktische Behandlungen steigern die Flexibilität, indem sie gezielt die Beweglichkeit fördern und Spannungen in Muskeln sowie Gelenken effektiv lösen.
+    - image: /img/b-5.jpg
+      title: Stressresistenz
+      text: Chiropraktik stärkt durch präzise Anpassungen das Nervensystem und ermöglicht es dem Körper, Belastungen und Herausforderungen des Alltags effektiver zu bewältigen.
+    - image: /img/b-6.jpg
+      title: Verbesserete Regeneration
+      text: Durch die Optimierung des Nervensystems fördert Chiropraktik eine schnellere Regeneration und aktiviert die natürlichen Selbstheilungskräfte des Körpers.
+
+phases:
+  heading: Die drei Phasen deiner Heilung
+  quote: Das Leben ist ein Prozess und kein Ereignis, genau so wie dein Heilungsprozess.
+  items:
+    - label: 'PHASE 1: START'
+      title: Schmerzlinderung & Stabilisierung
+      text: In der Akutphase lindern wir deine Schmerzen schnell. Dein Körper gewöhnt sich an die Anpassungen, die wir vornehmen. Mithilfe sanfter Techniken reduzieren wir Entzündungen und stabilisieren den betroffenen Bereich.
+    - label: 'PHASE 2: WEG'
+      title: Regenerierung des ursprünglichen Zustands
+      text: Während der Rehabilitationsphase stellen wir deine Beweglichkeit wieder her. Durch gezielte Übungen und Anpassungen korrigieren wir Nerven­systemstörungen, fördern langfristige Veränderungen und verbessern deine Stabilität.
+    - label: 'PHASE 3: ZIEL'
+      title: Langfristige natürliche Gesundheit
+      text: Wir sichern deine Fortschritte, verhindern Probleme und maximieren dein Potenzial. Durch regelmäßige, maßgeschneiderte Behandlungen fördern wir langfristige Gesundheit und minimieren Rückfälle.
+
+faq:
+  heading: FAQ
+  items:
+    - question: Was macht ein Chiropraktor?
+      answer: <p>ChiropraktorInnen diagnostizieren und behandeln mechanische Probleme an Gelenken, Muskeln, Sehnen und Bändern sowie die Auswirkungen, die diese Probleme auf die Funktion des Nervensystems haben können.</p><p>Obwohl alle Gelenke des Körpers chiropraktisch behandelt werden können, liegt der Schwerpunkt auf den Gelenken der Wirbelsäule.</p>
+    - question: Was ist der Unterschied zwischen Chiropraktoren und Chiropraktikern?
+      answer: <p>Chiropraktoren haben im Gegensatz zu Chiropraktikern in der Regel ein vier- bis sechsjähriges Hochschulstudium der Chiropraktik absolviert, das sich an internationalen Ausbildungsstandards orientiert. Je nach Hochschule und Ausbildungsweg schließen sie dieses beispielsweise mit dem akademischen Grad <strong>Doctor of Chiropractic (DC)</strong> oder <strong>Master of Science (MSc)</strong> ab.</p><p>Die Bezeichnung „Chiropraktiker“ wird hingegen häufig für Personen verwendet, die kürzere Aus- oder Weiterbildungen im Bereich chiropraktischer Techniken absolviert haben. Fehlen eine umfassende fachliche Ausbildung, standardisierte Qualitätsanforderungen und fundierte Kenntnisse in Anatomie, Neurologie, Diagnostik und klinischer Untersuchung, kann dies insbesondere bei manuellen Behandlungen ein erhöhtes Risiko für Fehlbeurteilungen oder unsachgemäße Anwendungen darstellen.</p>
+    - question: Was ist der Unterschied zwischen Chiropraktik und Osteopathie?
+      answer: <p>Die Ursprünge von Osteopathie und Chiropraktik beruhen auf einer gemeinsamen Grundidee:<br>Der Körper besitzt eine innewohnende Intelligenz sowie die Fähigkeit zur Selbstregulation, Anpassung und Heilung.</p><p>Der Unterschied liegt jedoch in der Auffassung, wie diese Intelligenz am besten im Körper aktiviert werden kann.</p><p>Während <strong>A.T. Still</strong>, der Begründer der Osteopathie, das übergeordnete Steuersystem des Körpers den Flüssigkeiten zuschrieb und den freien Fluss dieser als zentrales Element für Gesundheit und Heilung betrachtete, legte <strong>D.D. Palmer</strong>, der Begründer der Chiropraktik, den Fokus auf das Nervensystem als das Hauptsteuerungssystem des Körpers.</p><p>Er betonte die Bedeutung eines ungehinderten Flusses der Kommunikation innerhalb des Nervensystems, um die Regulierung des Körpers zu gewährleisten und Gesundheit sowie Heilung zu fördern.</p><p>Obwohl beide Methoden das gleiche Ziel verfolgen – den Körper in Balance zu bringen und die Selbstheilungskräfte zu aktivieren –, gehen sie dabei unterschiedliche Wege.</p>
+
+videos:
+  items:
+    - url: https://vimeo.com/213984621
+      image: /img/hero-3.jpg
+      title: Was kann Chiropraktik für mich tun?
+    - url: https://youtu.be/efHceFXuAEk
+      image: /img/t-div.jpg
+      title: Was kann Chiropraktik bewirken?
+    - url: https://youtu.be/3z7QXEukZ2g
+      image: /img/t-kiso.jpg
+      title: Chiropraktik und Schwangerschaft
+  link_label: Erfahre mehr
+  link_url: /chiropraktik

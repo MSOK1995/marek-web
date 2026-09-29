@@ -1,0 +1,11 @@
+title: Erfahrungsberichte
+description: Erfahrungsberichte und Feedback unserer Kund*innen – The Chiropractor Wien.
+
+hero:
+  image: /img/b-5.jpg
+  image_alt: ''
+  image_position: 50% 35%
+  heading: 'Unser Kund*innen Feedback:'
+
+# Nur echte Bewertungen mit Zustimmung der Person eintragen. Solange die Liste leer ist, wird der Bereich nicht angezeigt.
+reviews: []

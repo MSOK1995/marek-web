@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "partials/macros.html" import booking, steps %}
+{% block main %}
+<section class="hero hero-sub">
+  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" fetchpriority="high"{% if page.hero.image_position %} style="object-position: {{ page.hero.image_position }}"{% endif %}>
+  <div class="hero-inner">
+    <div class="wrap">
+      <h1 class="t-hero">{{ page.hero.heading }}</h1>
+    </div>
+  </div>
+</section>
+{% if page.reviews %}
+
+<!-- Bewertungen (nur echte, mit Zustimmung der Person) -->
+<section class="sec">
+  <div class="wrap grid gap-px bg-line p-px md:grid-cols-2 lg:grid-cols-3">
+{% for r in page.reviews %}
+    <figure class="rv flex flex-col bg-paper p-8 sm:p-10"{{ delay(loop.index0 % 3, 0.08) }}>
+{% if r.rating %}
+      <p class="text-bronze" aria-label="{{ r.rating }} von 5 Sternen">{{ "★" * (r.rating | int) }}{{ "☆" * (5 - (r.rating | int)) }}</p>
+{% endif %}
+      <blockquote class="t-body mt-5 flex-1">{{ r.text }}</blockquote>
+      <figcaption class="mt-8">
+        <span class="t-h3 block">{{ r.name }}</span>
+{% if r.date %}
+        <span class="t-small">{{ r.date }}</span>
+{% endif %}
+      </figcaption>
+    </figure>
+{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="sec sec-sand">
+  {{ steps("h2") }}
+  <div class="rv wrap mt-16">
+    {{ booking() }}
+  </div>
+</section>
+{% endblock %}

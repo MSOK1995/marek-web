@@ -1,0 +1,14 @@
+{
+  "name": "thechiropractor-pagescms",
+  "private": true,
+  "scripts": {
+    "build": "python build.py",
+    "build:prod": "python build.py --prod",
+    "dev": "python build.py && wrangler dev",
+    "deploy": "python build.py && wrangler deploy"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.16",
+    "wrangler": "4.143.0"
+  }
+}

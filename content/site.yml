@@ -1,0 +1,70 @@
+# Allgemeine Angaben – werden auf allen Seiten verwendet (Kopfzeile, Fußzeile, Kontakt, Buttons).
+# Bearbeitung über Pages CMS (siehe .pages.yml) oder direkt hier.
+name: The Chiropractor Wien
+theme: sand
+logo: /img/logo.png
+logo_alt: The Chiropractor Wien – Professional Chiropractic Care
+og_image: /img/justierung.jpg
+
+booking_url: https://portal.treatsoft.at/portal/appointments/booking/23890
+booking_label: Termin buchen
+
+address: Joanelligasse 10/11, 1060 Wien
+phone: +43 660 6276758
+email: info@thechiropractor.at
+
+nav:
+  - label: Chiropraktik
+    url: /chiropraktik
+    page: chiropraktik
+    children:
+      - label: Philosophie
+        url: /chiropraktik#philosophie
+      - label: Vitalistische Chiropraktik
+        url: /chiropraktik#vitalistische
+      - label: Funktionelle Neurologie
+        url: /chiropraktik#subluxation
+      - label: Justierung
+        url: /chiropraktik#justierung
+  - label: Über Uns
+    url: /uber-uns
+    page: uber-uns
+  - label: FAQ
+    url: /#chiropractor
+  - label: Erfahrungsberichte
+    url: /erfahrungsberichte
+    page: erfahrungsberichte
+  - label: Kontakt
+    url: /kontakt
+    page: kontakt
+
+footer_links:
+  - label: Impressum
+    url: /impressum
+    page: impressum
+  - label: Datenschutzerklärung
+    url: /datenschutz
+    page: datenschutz
+  - label: Kontakt
+    url: /kontakt
+copyright: ©2026 The Chiropractor Wien
+
+associations:
+  - image: /img/assoc-isc.png
+    alt: International Society of Chiropractic
+    style: light
+  - image: /img/assoc-ica.png
+    alt: International Chiropractors Association
+    style: dark
+  - image: /img/assoc-dagc.jpg
+    alt: Deutsch-Amerikanische Gesellschaft für Chiropraktik e.V.
+    style: light
+
+# "In 3 Schritten" – erscheint auf der Startseite und auf Erfahrungsberichte
+steps:
+  - title: Buche dir deinen Ersttermin
+    text: Buche dir online deinen Ersttermin zu deiner Wunschzeit. Falls du keinen passenden Termin findest, melde dich gerne bei uns.
+  - title: Komme zu uns in die Praxis
+    text: Komme mit Neugier und Offenheit zu uns in die Praxis und wir schauen uns im Ersttermin deinen aktuellen Gesundheitszustand an und wie wir dir am besten helfen können.
+  - title: Verändere nachhaltig deinen Gesund­heitszustand
+    text: Freue dich darauf Schritt für Schritt zurück zu deiner Gesundheit zu kommen. Wir begleiten und unterstützen dich dabei auf deinem Weg zu mehr Lebensqualität.

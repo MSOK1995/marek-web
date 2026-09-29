@@ -1,0 +1,436 @@
+# Pages CMS configuration – https://pagescms.org/docs/configuration/
+# Every save in the CMS is a commit to GitHub; the push triggers the deploy (.github/workflows/deploy.yml).
+media:
+  input: img
+  output: /img
+  extensions: [jpg, jpeg, png, webp, svg]
+
+settings:
+  content:
+    merge: true
+
+content:
+  # ------------------------------------------------------------------ Allgemein
+  - name: site
+    label: Allgemein
+    type: file
+    path: content/site.yml
+    fields:
+      - { name: name, label: Name der Praxis, type: string, required: true }
+      - name: theme
+        label: Farbschema
+        type: select
+        options:
+          values:
+            - { value: sand, label: Sand (Standard) }
+            - { value: sky, label: Blau }
+            - { value: rose, label: Rosé }
+      - { name: logo, label: Logo, type: image }
+      - { name: logo_alt, label: Logo – Alternativtext, type: string }
+      - { name: og_image, label: Vorschaubild für Social Media, type: image }
+      - { name: booking_url, label: Link zur Online-Terminbuchung, type: string, required: true }
+      - { name: booking_label, label: Beschriftung Buchungs-Button, type: string }
+      - { name: address, label: Adresse, type: string, description: Wird auch für den Google-Maps-Link verwendet. }
+      - { name: phone, label: Telefon, type: string }
+      - { name: email, label: E-Mail, type: string }
+      - name: nav
+        label: Hauptmenü
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Text, type: string }
+          - { name: url, label: Link, type: string, description: "z. B. /kontakt oder /chiropraktik#justierung" }
+          - { name: page, label: Seite (für Markierung im Menü), type: string, description: "Nur bei Unterseiten: chiropraktik, uber-uns, erfahrungsberichte, kontakt" }
+          - name: children
+            label: Untermenü
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Text, type: string }
+              - { name: url, label: Link, type: string }
+      - name: footer_links
+        label: Links in der Fußzeile
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Text, type: string }
+          - { name: url, label: Link, type: string }
+          - { name: page, label: Seite (für Markierung), type: string }
+      - { name: copyright, label: Copyright-Zeile, type: string }
+      - name: associations
+        label: Verbände (Logos in der Fußzeile)
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Logo, type: image }
+          - { name: alt, label: Name des Verbands, type: string }
+          - name: style
+            label: Hintergrund
+            type: select
+            options:
+              values:
+                - { value: light, label: Hell (für dunkle Logos) }
+                - { value: dark, label: Dunkel (für helle Logos) }
+      - name: steps
+        label: In 3 Schritten (Startseite + Erfahrungsberichte)
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titel, type: string }
+          - { name: text, label: Text, type: text }
+
+  # ------------------------------------------------------------------ Startseite
+  - name: home
+    label: Startseite
+    type: file
+    path: content/home.yml
+    fields:
+      - { name: title, label: Seitentitel (Browser-Tab / Google), type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - name: hero
+        label: Titelbereich (Zitat-Karussell)
+        type: object
+        fields:
+          - name: slides
+            label: Zitate
+            type: object
+            list: true
+            fields:
+              - { name: quote, label: Zitat, type: text }
+              - { name: author, label: Autor, type: string }
+              - { name: image, label: Hintergrundbild, type: image }
+              - { name: image_position, label: Bildausschnitt, type: string, description: "optional, z. B. 50% 30% (horizontal vertikal)" }
+              - { name: long, label: Langes Zitat (kleinere Schrift), type: boolean }
+          - { name: heading, label: Überschrift rechts, type: string }
+          - { name: lead, label: Text rechts, type: string }
+      - name: philosophy
+        label: Unsere Philosophie
+        type: object
+        fields:
+          - { name: label, label: Kleine Überschrift, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+      - name: experience
+        label: Erfahrung, Können und Wissen
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+      - name: quote
+        label: Zitat (Band)
+        type: object
+        fields:
+          - { name: show, label: Anzeigen, type: boolean }
+          - { name: text, label: Zitat, type: text }
+          - { name: author, label: Autor, type: string }
+      - name: chiro
+        label: Chiropraktik vom Chiropraktor
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: label, label: Kleine Überschrift, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: link_label, label: Link-Text, type: string }
+          - { name: link_url, label: Link, type: string }
+          - name: gallery
+            label: Kleine Bilder
+            type: object
+            list: true
+            fields:
+              - { name: image, label: Bild, type: image }
+              - { name: alt, label: Alternativtext, type: string }
+      - { name: statement, label: Statement (dunkles Band), type: text }
+      - name: groups
+        label: Lebenslagen
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - { name: items, label: Einträge, type: string, list: true }
+      - name: effects
+        label: Positiv beeinflusst
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - name: items
+            label: Einträge
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Text, type: string }
+              - name: icon
+                label: Symbol
+                type: select
+                options:
+                  values:
+                    - { value: stimmung, label: Smiley }
+                    - { value: haltung, label: Wirbelsäule }
+                    - { value: immunsystem, label: Schild }
+                    - { value: energie, label: Blitz }
+                    - { value: stress, label: Puls }
+                    - { value: beweglichkeit, label: Bewegung }
+                    - { value: verdauung, label: Verdauung }
+                    - { value: herz, label: Herz }
+                    - { value: schlaf, label: Mond }
+      - name: benefits
+        label: Andere Vorteile
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - name: items
+            label: Vorteile
+            type: object
+            list: true
+            fields:
+              - { name: image, label: Bild, type: image }
+              - { name: title, label: Titel, type: string }
+              - { name: text, label: Text, type: text }
+      - name: phases
+        label: Die drei Phasen
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - { name: quote, label: Zitat, type: text }
+          - name: items
+            label: Phasen
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Kleine Überschrift, type: string }
+              - { name: title, label: Titel, type: string }
+              - { name: text, label: Text, type: text }
+      - name: faq
+        label: FAQ
+        type: object
+        fields:
+          - { name: heading, label: Überschrift, type: string }
+          - name: items
+            label: Fragen
+            type: object
+            list: true
+            fields:
+              - { name: question, label: Frage, type: string }
+              - { name: answer, label: Antwort, type: rich-text }
+      - name: videos
+        label: Videos
+        type: object
+        fields:
+          - name: items
+            label: Videos
+            type: object
+            list: true
+            fields:
+              - { name: url, label: Link zum Video (YouTube/Vimeo), type: string }
+              - { name: image, label: Vorschaubild, type: image }
+              - { name: title, label: Titel, type: string }
+          - { name: link_label, label: Link-Text darunter, type: string }
+          - { name: link_url, label: Link darunter, type: string }
+
+  # ------------------------------------------------------------------ Chiropraktik
+  - name: chiropraktik
+    label: Chiropraktik
+    type: file
+    path: content/chiropraktik.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - name: hero
+        label: Titelbereich
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: image_position, label: Bildausschnitt, type: string, description: "optional, z. B. 50% 30%" }
+          - { name: heading, label: Überschrift, type: string }
+      - name: philosophie
+        label: Philosophie
+        type: object
+        fields:
+          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
+          - { name: intro, label: Einleitung, type: text, description: Die erste Zahl im Text wird beim Scrollen hochgezählt. }
+          - { name: text, label: Text, type: text }
+          - { name: pillars, label: "Grafik: drei Begriffe", type: string, list: { min: 3, max: 3 } }
+      - name: vitalistische
+        label: Vitalistische Chiropraktik
+        type: object
+        fields:
+          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: lead, label: Einleitung, type: text }
+          - { name: paragraphs, label: Absätze, type: text, list: true }
+          - { name: highlight, label: Hervorgehobener Absatz, type: text }
+      - name: neurologie
+        label: Funktionelle Neurologie
+        type: object
+        fields:
+          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: lead, label: Einleitung, type: text }
+          - { name: paragraphs, label: Absätze, type: text, list: true }
+      - name: subluxation
+        label: Vertebrale Subluxation
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: lead, label: Einleitung, type: text }
+          - { name: paragraphs, label: Absätze, type: text, list: true }
+      - name: justierung
+        label: Justierung
+        type: object
+        fields:
+          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+
+  # ------------------------------------------------------------------ Über Uns
+  - name: uber-uns
+    label: Über Uns
+    type: file
+    path: content/uber-uns.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - name: hero
+        label: Titelbereich
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: heading, label: Überschrift, type: text }
+          - { name: text, label: Text, type: text }
+      - name: people
+        label: Team
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: image, label: Foto, type: image }
+          - { name: image_alt, label: Foto – Alternativtext, type: string }
+          - { name: titles, label: Titel / Qualifikationen, type: string, list: true }
+          - { name: bio_heading, label: Überschrift Bio, type: string }
+          - { name: bio_lead, label: Einleitung Bio, type: text }
+          - { name: bio, label: Bio, type: rich-text }
+          - { name: statement, label: Abschluss-Statement, type: text }
+
+  # ------------------------------------------------------------------ Erfahrungsberichte
+  - name: erfahrungsberichte
+    label: Erfahrungsberichte
+    type: file
+    path: content/erfahrungsberichte.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - name: hero
+        label: Titelbereich
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: image_position, label: Bildausschnitt, type: string }
+          - { name: heading, label: Überschrift, type: string }
+      - name: reviews
+        label: Bewertungen
+        description: Nur echte Bewertungen eintragen, mit Einverständnis der Person. Solange die Liste leer ist, wird der Bereich nicht angezeigt.
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name (z. B. Vorname + Initial), type: string, required: true }
+          - { name: text, label: Bewertung, type: text, required: true }
+          - { name: rating, label: Sterne (1–5), type: number, options: { min: 1, max: 5 } }
+          - { name: date, label: Datum, type: string, description: "z. B. März 2026" }
+
+  # ------------------------------------------------------------------ Kontakt
+  - name: kontakt
+    label: Kontakt
+    type: file
+    path: content/kontakt.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - name: hero
+        label: Titelbereich
+        type: object
+        fields:
+          - { name: image, label: Bild, type: image }
+          - { name: image_alt, label: Bild – Alternativtext, type: string }
+          - { name: heading, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+      - { name: maps_label, label: Beschriftung Google-Maps-Link, type: string }
+      - { name: phone_label, label: Beschriftung Telefon, type: string }
+      - { name: email_label, label: Beschriftung E-Mail, type: string }
+
+  # ------------------------------------------------------------------ Rechtliches
+  - name: impressum
+    label: Impressum
+    type: file
+    path: content/impressum.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: body, label: Inhalt, type: rich-text }
+
+  - name: datenschutz
+    label: Datenschutzerklärung
+    type: file
+    path: content/datenschutz.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: body, label: Inhalt, type: rich-text }
+
+  - name: consent
+    label: Cookie-Banner
+    type: file
+    path: content/consent.yml
+    fields:
+      - { name: title, label: Überschrift, type: string }
+      - { name: message, label: Text, type: text }
+      - name: functional
+        label: Funktional
+        type: object
+        fields:
+          - { name: label, label: Name, type: string }
+          - { name: always, label: Hinweis „immer aktiv“, type: string }
+          - { name: text, label: Beschreibung, type: text }
+      - name: preferences
+        label: Vorlieben
+        type: object
+        fields:
+          - { name: label, label: Name, type: string }
+          - { name: text, label: Beschreibung, type: text }
+      - name: statistics
+        label: Statistiken
+        type: object
+        fields:
+          - { name: label, label: Name, type: string }
+          - { name: text, label: Beschreibung, type: text }
+      - name: marketing
+        label: Marketing
+        type: object
+        fields:
+          - { name: label, label: Name, type: string }
+          - { name: text, label: Beschreibung, type: text }
+      - { name: accept, label: Button Akzeptieren, type: string }
+      - { name: deny, label: Button Ablehnen, type: string }
+      - { name: view, label: Button Einstellungen ansehen, type: string }
+      - { name: save, label: Button Einstellungen speichern, type: string }
+      - { name: privacy_label, label: Link Datenschutz, type: string }
+      - { name: imprint_label, label: Link Impressum, type: string }
+      - { name: footer_link, label: Link in der Fußzeile, type: string }
+
+  - name: notfound
+    label: Seite nicht gefunden (404)
+    type: file
+    path: content/404.yml
+    fields:
+      - { name: title, label: Seitentitel, type: string }
+      - { name: description, label: Beschreibung, type: text }
+      - { name: label, label: Kleine Überschrift, type: string }
+      - { name: heading, label: Überschrift, type: string }
+      - { name: home_label, label: Button Startseite, type: string }
+      - { name: contact_label, label: Button Kontakt, type: string }

@@ -1,0 +1,13 @@
+title: Kontakt
+description: 'Kontakt – The Chiropractor Wien, Joanelligasse 10/11, 1060 Wien. Tel.: +43 660 6276758, info@thechiropractor.at. Termin online buchen.'
+
+hero:
+  image: /img/t-ak.jpg
+  image_alt: ''
+  heading: Kontakt
+  text: Buche dir online deinen Ersttermin zu deiner Wunschzeit. Falls du keinen passenden Termin findest, melde dich gerne bei uns.
+
+# Adresse, Telefon und E-Mail kommen aus "Allgemein"
+maps_label: Google Maps
+phone_label: 'Tel.:'
+email_label: 'Mail:'

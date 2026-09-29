@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="pagehead">
+  <div class="wrap">
+    <h1 class="t-h1">{{ page.title }}</h1>
+  </div>
+</section>
+<section class="sec">
+  <div class="wrap">
+    <div class="legal">
+{{ page.body | rich }}
+    </div>
+  </div>
+</section>
+{% endblock %}

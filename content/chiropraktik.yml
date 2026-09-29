@@ -1,0 +1,52 @@
+title: Chiropraktik
+description: Chiropraktik vereint Wissenschaft, Kunst & Philosophie – Vitalistische Chiropraktik, Funktionelle Neurologie und Justierung bei The Chiropractor Wien.
+
+hero:
+  image: /img/t-div.jpg
+  image_alt: Chiropraktische Untersuchung der Wirbelsäule
+  image_position: 50% 30%
+  heading: Chiropraktik vereint Wissenschaft, Kunst & Philosophie.
+
+philosophie:
+  nav_label: Philosophie
+  # Die erste Zahl im Text wird beim Scrollen hochgezählt.
+  intro: Ist dir bewusst, dass dein Körper aus etwa 60 Billionen Körperzellen besteht, die durch dein Nervensystem gesteuert werden? Wie du deine Umwelt wahrnimmst und durch dein Leben gehst ist enorm davon abhängig, wie gut dein Nervensystem funktioniert.
+  text: Dein Gehirn sendet lebenswichtige Informationen über dein Nervensystem an deinen Körper, sprich in deine Organe, Muskeln und viele andere Strukturen. Gleichzeitig sammelt es unzählige Eindrücke aus deiner Umwelt und kreiert damit deine Wahrnehmung. Willst du dein Leben optimal gestalten und dein Potential entfalten? Dann ist, aus unserer Sicht, ein gut funktionierendes Nervensystem essentiell dafür. Vitalistische Chiropraktik aktiviert die Selbstheilungskräfte von Menschen jeden Alters. In unserer Praxis bist du mit deinen Liebsten herzlich willkommen. Entfalte dein Potential und genieße dein Leben.
+  pillars:
+    - Wissenschaft
+    - Kunst
+    - Philosophie
+
+vitalistische:
+  nav_label: Vitalistische Chiropraktik
+  heading: Was ist Vitalistische Chiropraktik?
+  lead: Chiropraktik ist weltweit die größte Profession, die sich auf natürliche Art und Weise um das Thema Gesundheit und Prävention kümmert.
+  paragraphs:
+    - Chiropraktik ist deine Anlaufstelle für Gesundheit, Prävention und ein neues Lebensgefühl. Wir sind hier, um dich auf deinem Weg von Schmerz zu mehr Vitalität zu begleiten. Schmerz zeigt uns oft, dass etwas in unserem Körper oder unserem Leben nicht im Gleichgewicht ist.
+    - Mit Chiropraktik möchten wir dir die Tür zu einem neuen Lebensgefühl öffnen. Durch gezielte Justierungen und eine bewusste, liebevolle Verbindung zu deinem Körper kannst du lernen, deinen Körper besser wahrzunehmen und dein persönliches Potenzial weiterzuentwickeln.
+    - Dabei betrachten wir den Menschen ganzheitlich – mit seinem Körper, seinem Nervensystem, seinem individuellen Empfinden und seinem persönlichen Energiefeld.
+  highlight: THE CHIROPRACTOR WIEN steht für professionelle Chiropraktik, Prävention und individuelle Begleitung auf dem Weg zu mehr Bewegungsfreiheit, Wohlbefinden und Lebensqualität.
+
+neurologie:
+  nav_label: Funktionelle Neurologie
+  heading: Funktionelle Neurologie
+  lead: Die funktionelle Neurologie ist ein neurowissenschaftlicher Ansatz, der Zusammenhänge und Funktionsmuster im Nervensystem untersucht. Dabei wird analysiert, wie Beeinträchtigungen bestimmter Bereiche mit körperlichen Beschwerden in Verbindung stehen können.
+  paragraphs:
+    - In unserer Praxis ergänzen wir die chiropraktische Untersuchung durch Methoden der funktionellen Neurologie. So erhalten wir ein präziseres Bild vom Funktionszustand des Nervensystems und können chiropraktische Justierungen gezielter darauf abstimmen.
+    - So entsteht ein ganzheitlicher und individuell abgestimmter Betreuungsansatz.
+
+subluxation:
+  image: /img/subluxation.jpg
+  image_alt: Darstellung von Wirbelsäule und Nervensystem
+  heading: Vertebrale Subluxation - Was ist eine Justierung?
+  lead: Die chiropraktische Justierung zielt darauf ab, Funktionsstörungen der Wirbelsäule und des Nervensystems (sogenannte Subluxationen) zu lösen sowie Energiefluss und Energiefeld in Balance zu bringen.
+  paragraphs:
+    - Dies geschieht durch sanfte, präzise und kontrollierte Impulse.
+    - Durch die Justierung wird die Kommunikation zwischen Gehirn und Körper verbessert, die Selbstregulation gestärkt und die Funktion des Körpers insgesamt optimiert. Eine chiropraktische Justierung kann nicht nur helfen, Schmerzen zu lindern, sondern auch die Vitalität und das Wohlbefinden zu steigern sowie die Selbstheilungskräfte des Körpers zu fördern.
+
+justierung:
+  nav_label: Justierung
+  image: /img/justierung.jpg
+  image_alt: Chiropraktische Justierung
+  heading: Justierung – Das Herzstück der Amerikanischen Chiropraktik
+  text: Die chiropraktische Justierung korrigiert präzise Subluxationen und behebt gestörte neurologische Muster. Ein sanfter, gezielter Impuls stellt die Ausrichtung und Beweglichkeit des Gelenks wieder her und löst fasziale Verklebungen. Das optimiert den Informationsfluss zwischen Körper und Nervensystem und führt zu einer messbaren Funktionsverbesserung (Haavik et al., 2021). Die Harmonisierung des Nervensystems aktiviert die Selbstheilungskräfte und schafft die Basis für volle Leistungsfähigkeit und höhere Lebensqualität.

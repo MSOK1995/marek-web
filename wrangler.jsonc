@@ -1,0 +1,15 @@
+// Preview on *.workers.dev (noindex). Deployed on every push to main by .github/workflows/deploy.yml.
+// Separate Worker from the old v1–v4 preview (tcw-preview-3d5fc59f), so the two never overwrite each other.
+// URL after the first deploy: https://tcw-cms-ac3d4184.<account-subdomain>.workers.dev
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tcw-cms-ac3d4184",
+  "compatibility_date": "2026-09-25",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

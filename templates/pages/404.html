@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="pagehead">
+  <div class="wrap">
+    <p class="t-name">{{ page.label }}</p>
+    <h1 class="t-h1 mt-4">{{ page.heading }}</h1>
+  </div>
+</section>
+<section class="sec">
+  <div class="wrap flex flex-wrap gap-3">
+    <a href="/" class="btn btn-primary">{{ page.home_label }}</a>
+    <a href="/kontakt" class="btn btn-outline">{{ page.contact_label }}</a>
+  </div>
+</section>
+{% endblock %}

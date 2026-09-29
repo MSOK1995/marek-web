@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% from "partials/macros.html" import booking, steps with context %}
+{% block main %}
+{% set h = page.hero %}
+<!-- Hero: quote carousel -->
+<section class="hero hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Zitate">
+  <div class="hc-media" aria-hidden="true">
+{% for s in h.slides %}
+    <img src="{{ s.image }}" alt=""{% if loop.first %} class="is-on" fetchpriority="high"{% else %} loading="lazy"{% endif %}{% if s.image_position %} style="object-position: {{ s.image_position }}"{% endif %}>
+{% endfor %}
+  </div>
+  <div class="hero-inner">
+    <div class="wrap grid gap-10 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-8">
+        <div class="hc-slides">
+{% for s in h.slides %}
+          <blockquote class="hc-slide{{ ' is-on' if loop.first }}" role="group" aria-roledescription="Folie" aria-label="{{ loop.index }} von {{ loop.length }}">
+            <p class="t-hero{{ ' t-hero-long' if s.long }}">{{ s.quote }}</p>
+{% if s.author %}
+            <footer class="mt-6 text-white/75">{{ s.author }}</footer>
+{% endif %}
+          </blockquote>
+{% endfor %}
+        </div>
+{% if h.slides | length > 1 %}
+        <div class="hc-ctrl mt-10 flex items-center gap-2">
+{% for s in h.slides %}
+          <button type="button" class="hc-dot{{ ' is-on' if loop.first }}" data-slide="{{ loop.index0 }}" aria-label="Zitat {{ loop.index }} anzeigen"{% if loop.first %} aria-current="true"{% endif %}><span class="hc-fill"></span></button>
+{% endfor %}
+          <button type="button" class="hc-toggle ml-3 grid h-9 w-9 place-items-center rounded-full" aria-label="Pause">
+            <svg class="i-pause" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1" width="2.6" height="10" rx=".6"/><rect x="7.4" y="1" width="2.6" height="10" rx=".6"/></svg>
+            <svg class="i-play" hidden width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.4v9.2c0 .5.5.8.9.5l7-4.6a.6.6 0 0 0 0-1L3.9.9C3.5.6 3 .9 3 1.4z"/></svg>
+          </button>
+        </div>
+{% endif %}
+      </div>
+      <div class="flex flex-col gap-6 lg:col-span-4 lg:items-start lg:pb-2">
+        <h2 class="t-h2 !text-white">{{ h.heading }}</h2>
+        <p class="t-lead !text-white">{{ h.lead }}</p>
+        {{ booking("btn btn-primary self-start") }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Philosophie -->
+<section id="philosophie" class="sec">
+  <div class="wrap grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <h2 class="rv t-name lg:col-span-4 lg:pt-3">{{ page.philosophy.label }}</h2>
+    <div class="lg:col-span-8">
+      <h2 class="rv t-h2">{{ page.philosophy.heading }}</h2>
+      <p class="rv t-body mt-8" style="--d:.1s">{{ page.philosophy.text }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Erfahrung, Können und Wissen -->
+<section class="sec sec-sand">
+  <div class="wrap grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <h2 class="rv t-h2 lg:col-span-6">{{ page.experience.heading }}</h2>
+    <p class="rv t-lead lg:col-span-6 lg:pt-2" style="--d:.1s">{{ page.experience.text }}</p>
+  </div>
+</section>
+{% if page.quote.show %}
+
+<!-- Zitat -->
+<section class="sec sec-blush">
+  <figure class="wrap mx-auto max-w-5xl text-center">
+    <blockquote class="rv t-quote text-[1.9rem] sm:text-[2.6rem] lg:text-[3.1rem]">{{ page.quote.text }}</blockquote>
+{% if page.quote.author %}
+    <figcaption class="rv mt-8 text-muted" style="--d:.1s">{{ page.quote.author }}</figcaption>
+{% endif %}
+  </figure>
+</section>
+{% endif %}
+
+<!-- Chiropraktik vom Chiropraktor -->
+{% set c = page.chiro %}
+<section id="vitalistische" class="sec">
+  <div class="wrap grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
+    <div class="rv photo lg:col-span-5" style="aspect-ratio: 4/5; max-width: 100%;">
+      <img src="{{ c.image }}" alt="{{ c.image_alt }}" class="parallax !h-[112%]" data-speed="0.06" loading="lazy" style="margin-top:-6%">
+    </div>
+    <div class="lg:col-span-7">
+      <p class="rv t-name">{{ c.label }}</p>
+      <h2 class="rv t-h1 mt-6" style="--d:.06s">{{ c.heading }}</h2>
+      <p class="rv t-body mt-8" style="--d:.12s">{{ c.text }}</p>
+      <a href="{{ c.link_url }}" class="rv link mt-9" style="--d:.18s">{{ c.link_label }}
+        {% include "partials/arrow.html" %}
+      </a>
+{% if c.gallery %}
+      <div class="mt-14 grid grid-cols-3 gap-3">
+{% for g in c.gallery %}
+        <div class="rv photo" style="aspect-ratio: 3/2{{ delay_css(loop.index0, 0.08) }}"><img src="{{ g.image }}" alt="{{ g.alt }}" loading="lazy"></div>
+{% endfor %}
+      </div>
+{% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Statement -->
+<section class="sec sec-night">
+  <div class="wrap">
+    <h2 class="fill-text t-h1 max-w-[24ch]"><span data-split>{{ page.statement }}</span></h2>
+  </div>
+</section>
+
+<!-- Lebenslagen -->
+<section class="sec">
+  <div class="wrap">
+    <h2 class="rv t-h3 max-w-[30ch]">{{ page.groups.heading }}</h2>
+    <ul class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-10 sm:gap-x-9">
+{% for g in page.groups["items"] %}
+{% if not loop.first %}
+      <li class="rv h-1.5 w-1.5 rounded-full bg-bronze" aria-hidden="true"></li>
+{% endif %}
+      <li class="rv t-h2 !font-light"{{ delay(loop.index0, 0.05) }}>{{ g }}</li>
+{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<!-- Positive Einflüsse -->
+<section class="sec sec-sand">
+  <div class="wrap">
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+      <h2 class="rv t-h2 max-w-[20ch]">{{ page.effects.heading }}</h2>
+      {{ booking("rv btn btn-primary self-start sm:self-auto") }}
+    </div>
+    <ul id="effects" class="mt-14 grid grid-cols-1 gap-px bg-line p-px sm:grid-cols-2 lg:grid-cols-3">
+{% for e in page.effects["items"] %}
+      <li class="rv flex items-center gap-5 bg-paper px-6 py-7 sm:px-8"{{ delay(loop.index0 % 3, 0.08) }}>
+        <svg class="ico shrink-0 text-bronze" width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ icons[e.icon] | safe }}</svg>
+        <span class="text-[1.08rem] font-medium">{{ e.label }}</span>
+      </li>
+{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<!-- Andere Vorteile -->
+<section class="sec">
+  <div class="wrap">
+    <h2 class="rv t-h2 max-w-[22ch]">{{ page.benefits.heading }}</h2>
+    <div class="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+{% for b in page.benefits["items"] %}
+      <article class="rv group"{{ delay(loop.index0 % 3, 0.1) }}>
+        <div class="photo" style="aspect-ratio: 4/5"><img src="{{ b.image }}" alt="" loading="lazy"></div>
+        <h3 class="t-h3 mt-6">{{ b.title }}</h3>
+        <p class="t-small mt-3">{{ b.text }}</p>
+      </article>
+{% endfor %}
+    </div>
+    <div class="rv mt-16">
+      {{ booking() }}
+    </div>
+  </div>
+</section>
+
+<!-- 3 Schritte -->
+<section class="sec sec-sand">
+  {{ steps("h3") }}
+</section>
+
+<!-- Drei Phasen -->
+<section class="sec sec-night">
+  <div class="wrap grid gap-14 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-32">
+        <h2 class="rv t-h1">{{ page.phases.heading }}</h2>
+        <h6 class="rv t-quote mt-6 max-w-[32ch] text-[1.45rem] text-nightmuted" style="--d:.1s">{{ page.phases.quote }}</h6>
+        {{ booking("rv btn btn-light mt-10", "--d:.2s") }}
+      </div>
+    </div>
+    <div data-timeline class="relative lg:col-span-6 lg:col-start-7">
+      <span class="absolute bottom-6 left-[1.35rem] top-6 w-px bg-nightline" aria-hidden="true"></span>
+      <span class="tl-fill absolute bottom-6 left-[1.35rem] top-6 w-px bg-onband" aria-hidden="true"></span>
+      <ol class="grid gap-16">
+{% for p in page.phases["items"] %}
+        <li class="relative grid grid-cols-[2.75rem_1fr] gap-7">
+          <span class="tl-node on num relative z-10 grid h-11 w-11 place-items-center rounded-full border border-nightline bg-night text-[0.95rem] font-semibold">{{ loop.index }}</span>
+          <div>
+            <h3>
+              <span class="t-name block">{{ p.label }}</span>
+              <span class="t-h2 mt-3 block !text-[1.75rem]">{{ p.title }}</span>
+            </h3>
+            <p class="t-body mt-4">{{ p.text }}</p>
+          </div>
+        </li>
+{% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ (anchor #chiropractor is what the live menu links to) -->
+<section id="chiropractor" class="sec">
+  <div class="wrap grid gap-10 lg:grid-cols-12 lg:gap-12">
+    <h2 class="rv t-h1 lg:col-span-4">{{ page.faq.heading }}</h2>
+    <div class="faq lg:col-span-8">
+{% for f in page.faq["items"] %}
+      <details class="rv"{{ delay(loop.index0, 0.06) }}{% if loop.first %} open{% endif %}>
+        <summary><span class="t-h3">{{ f.question }}</span></summary>
+        <div class="faq-body">
+          {{ f.answer | rich }}
+        </div>
+      </details>
+{% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Videos -->
+<section class="sec">
+  <div class="wrap">
+    <div class="grid gap-12 md:grid-cols-3 md:gap-8">
+{% for v in page.videos["items"] %}
+      <a href="{{ v.url }}" target="_blank" rel="noopener" class="rv group block"{{ delay(loop.index0 % 3, 0.1) }}>
+        <div class="photo grid place-items-center" style="aspect-ratio: 4/3">
+          <img src="{{ v.image }}" alt="" loading="lazy" class="absolute inset-0">
+          <span class="absolute inset-0 bg-[#111827]/25" aria-hidden="true"></span>
+          <span class="relative grid h-[4.5rem] w-[4.5rem] place-items-center rounded-full bg-paper/95 text-ink transition-transform duration-500 group-hover:scale-110">
+            <svg width="15" height="17" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true"><path d="M2 1.2v15.6c0 .8.9 1.3 1.6.9l12-7.8c.6-.4.6-1.3 0-1.7l-12-7.8C2.9-.1 2 .4 2 1.2z"/></svg>
+          </span>
+        </div>
+        <h2 class="t-h3 mt-6">{{ v.title }}</h2>
+      </a>
+{% endfor %}
+    </div>
+    <div class="rv mt-14">
+      <a href="{{ page.videos.link_url }}" class="link">{{ page.videos.link_label }}
+        {% include "partials/arrow.html" %}
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}
