@@ -199,9 +199,10 @@ def main():
     ap.add_argument("--prod", action="store_true", help="indexable build for thechiropractor.at")
     prod = ap.parse_args().prod or os.environ.get("SITE_ENV") == "production"
 
-    if DIST.exists():
-        shutil.rmtree(DIST)
-    DIST.mkdir()
+    # empty dist/ instead of deleting it, so a running `wrangler dev` keeps watching the folder
+    DIST.mkdir(exist_ok=True)
+    for p in DIST.iterdir():
+        shutil.rmtree(p) if p.is_dir() else p.unlink()
     render_pages(prod)
     copy_media()
     build_css()

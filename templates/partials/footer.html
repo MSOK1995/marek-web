@@ -1,22 +1,22 @@
 {% from "partials/macros.html" import booking %}
 <footer class="bg-ink text-[#F3F4F6]">
-  <div class="wrap grid gap-14 py-20 lg:grid-cols-12 lg:py-24">
-    <div class="lg:col-span-5">
+  <div class="wrap grid gap-14 py-20 lg:grid-cols-12 lg:gap-x-8 lg:py-24 xl:gap-x-14">
+    <div class="lg:col-span-3 xl:col-span-5">
       <a href="/" class="block w-fit" aria-label="{{ site.name }} – Startseite"><img src="{{ site.logo }}" alt="{{ site.name }}" class="h-12 w-auto brightness-0 invert" loading="lazy" width="1024" height="231"></a>
       {{ booking("btn btn-light mt-10") }}
     </div>
-    <address class="not-italic leading-[2] text-[#9CA3AF] lg:col-span-4">
+    <address class="not-italic leading-[2] text-[#9CA3AF] lg:col-span-5 xl:col-span-3">
       <p class="font-semibold text-[#F3F4F6]">{{ site.name }}</p>
       <p>{{ site.address }}</p>
       <p>Tel.: <a href="tel:{{ site.phone | tel }}" class="num text-[#F3F4F6] hover:underline">{{ site.phone }}</a></p>
       <p>Mail: <a href="mailto:{{ site.email }}" class="text-[#F3F4F6] hover:underline">{{ site.email }}</a></p>
     </address>
-    <div class="flex flex-wrap items-start gap-3 lg:col-span-3 lg:justify-end">
+    <div class="grid w-full min-w-0 max-w-[26rem] grid-cols-3 content-start gap-3 lg:col-span-4 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
 {% for a in site.associations %}
 {% if a.style == "dark" %}
-      <div class="grid h-16 w-28 place-items-center rounded-[3px] border border-[#1F2937] p-3"><img src="{{ a.image }}" alt="{{ a.alt }}" class="max-h-full w-auto" loading="lazy"></div>
+      <div class="grid aspect-[3/2] min-h-0 place-items-center overflow-hidden rounded-[3px] border border-[#374151] p-3"><img src="{{ a.image }}" alt="{{ a.alt }}" class="h-full w-full object-contain" loading="lazy"></div>
 {% else %}
-      <div class="grid h-16 w-24 place-items-center rounded-[3px] bg-paper p-2"><img src="{{ a.image }}" alt="{{ a.alt }}" class="max-h-full w-auto" loading="lazy"></div>
+      <div class="grid aspect-[3/2] min-h-0 place-items-center overflow-hidden rounded-[3px] bg-paper p-2.5"><img src="{{ a.image }}" alt="{{ a.alt }}" class="h-full w-full object-contain" loading="lazy"></div>
 {% endif %}
 {% endfor %}
     </div>
