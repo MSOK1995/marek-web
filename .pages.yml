@@ -1,4 +1,5 @@
 # Pages CMS configuration – https://pagescms.org/docs/configuration/
+# Rozhranie CMS je po slovensky, obsah webu (hodnoty v content/*.yml) ostáva po nemecky.
 # Every save in the CMS is a commit to GitHub; the push triggers the deploy (.github/workflows/deploy.yml).
 media:
   input: img
@@ -10,222 +11,222 @@ settings:
     merge: true
 
 content:
-  # ------------------------------------------------------------------ Allgemein
+  # ------------------------------------------------------------------ Všeobecné
   - name: site
-    label: Allgemein
+    label: Všeobecné
     type: file
     path: content/site.yml
     fields:
-      - { name: name, label: Name der Praxis, type: string, required: true }
+      - { name: name, label: Názov praxe, type: string, required: true }
       - name: theme
-        label: Farbschema
+        label: Farebná schéma
         type: select
         options:
           values:
-            - { value: sand, label: Sand (Standard) }
-            - { value: sky, label: Blau }
-            - { value: rose, label: Rosé }
+            - { value: sand, label: Piesková (predvolená) }
+            - { value: sky, label: Modrá }
+            - { value: rose, label: Ružová }
       - { name: logo, label: Logo, type: image }
-      - { name: logo_alt, label: Logo – Alternativtext, type: string }
-      - { name: og_image, label: Vorschaubild für Social Media, type: image }
-      - { name: booking_url, label: Link zur Online-Terminbuchung, type: string, required: true }
-      - { name: booking_label, label: Beschriftung Buchungs-Button, type: string }
-      - { name: address, label: Adresse, type: string, description: Wird auch für den Google-Maps-Link verwendet. }
-      - { name: phone, label: Telefon, type: string }
-      - { name: email, label: E-Mail, type: string }
+      - { name: logo_alt, label: Logo – alternatívny text, type: string }
+      - { name: og_image, label: Náhľadový obrázok pre sociálne siete, type: image }
+      - { name: booking_url, label: Odkaz na online rezerváciu, type: string, required: true }
+      - { name: booking_label, label: Text tlačidla rezervácie, type: string }
+      - { name: address, label: Adresa, type: string, description: Používa sa aj pre odkaz na Google Maps. }
+      - { name: phone, label: Telefón, type: string }
+      - { name: email, label: E-mail, type: string }
       - name: nav
-        label: Hauptmenü
+        label: Hlavné menu
         type: object
         list: true
         fields:
           - { name: label, label: Text, type: string }
-          - { name: url, label: Link, type: string, description: "z. B. /kontakt oder /chiropraktik#justierung" }
-          - { name: page, label: Seite (für Markierung im Menü), type: string, description: "Nur bei Unterseiten: chiropraktik, uber-uns, erfahrungsberichte, kontakt" }
+          - { name: url, label: Odkaz, type: string, description: "napr. /kontakt alebo /chiropraktik#justierung" }
+          - { name: page, label: Stránka (na zvýraznenie v menu), type: string, description: "Len pri podstránkach: chiropraktik, uber-uns, erfahrungsberichte, kontakt" }
           - name: children
-            label: Untermenü
+            label: Podmenu
             type: object
             list: true
             fields:
               - { name: label, label: Text, type: string }
-              - { name: url, label: Link, type: string }
+              - { name: url, label: Odkaz, type: string }
       - name: footer_links
-        label: Links in der Fußzeile
+        label: Odkazy v pätičke
         type: object
         list: true
         fields:
           - { name: label, label: Text, type: string }
-          - { name: url, label: Link, type: string }
-          - { name: page, label: Seite (für Markierung), type: string }
-      - { name: copyright, label: Copyright-Zeile, type: string }
+          - { name: url, label: Odkaz, type: string }
+          - { name: page, label: Stránka (na zvýraznenie), type: string }
+      - { name: copyright, label: Riadok s copyrightom, type: string }
       - name: associations
-        label: Verbände (Logos in der Fußzeile)
+        label: Asociácie (logá v pätičke)
         type: object
         list: true
         fields:
           - { name: image, label: Logo, type: image }
-          - { name: alt, label: Name des Verbands, type: string }
+          - { name: alt, label: Názov asociácie, type: string }
           - name: style
-            label: Hintergrund
+            label: Pozadie
             type: select
             options:
               values:
-                - { value: light, label: Hell (für dunkle Logos) }
-                - { value: dark, label: Dunkel (für helle Logos) }
+                - { value: light, label: Svetlé (pre tmavé logá) }
+                - { value: dark, label: Tmavé (pre svetlé logá) }
       - name: steps
-        label: In 3 Schritten (Startseite + Erfahrungsberichte)
+        label: 3 kroky (úvodná stránka + Erfahrungsberichte)
         type: object
         list: true
         fields:
-          - { name: title, label: Titel, type: string }
+          - { name: title, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
 
-  # ------------------------------------------------------------------ Startseite
+  # ------------------------------------------------------------------ Úvodná stránka
   - name: home
-    label: Startseite
+    label: Úvodná stránka
     type: file
     path: content/home.yml
     fields:
-      - { name: title, label: Seitentitel (Browser-Tab / Google), type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: title, label: Titulok stránky (karta prehliadača / Google), type: string }
+      - { name: description, label: Popis pre Google, type: text }
       - name: hero
-        label: Titelbereich (Zitat-Karussell)
+        label: Úvodná časť (karusel citátov)
         type: object
         fields:
           - name: slides
-            label: Zitate
+            label: Citáty
             type: object
             list: true
             fields:
-              - { name: quote, label: Zitat, type: text }
+              - { name: quote, label: Citát, type: text }
               - { name: author, label: Autor, type: string }
-              - { name: image, label: Hintergrundbild, type: image }
-              - { name: image_position, label: Bildausschnitt, type: string, description: "optional, z. B. 50% 30% (horizontal vertikal)" }
-              - { name: long, label: Langes Zitat (kleinere Schrift), type: boolean }
-          - { name: heading, label: Überschrift rechts, type: string }
-          - { name: lead, label: Text rechts, type: string }
+              - { name: image, label: Obrázok na pozadí, type: image }
+              - { name: image_position, label: Výrez obrázka, type: string, description: "nepovinné, napr. 50% 30% (vodorovne zvisle)" }
+              - { name: long, label: Dlhý citát (menšie písmo), type: boolean }
+          - { name: heading, label: Nadpis vpravo, type: string }
+          - { name: lead, label: Text vpravo, type: string }
       - name: philosophy
         label: Unsere Philosophie
         type: object
         fields:
-          - { name: label, label: Kleine Überschrift, type: string }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: label, label: Malý nadpis, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
       - name: experience
         label: Erfahrung, Können und Wissen
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
       - name: quote
-        label: Zitat (Band)
+        label: Citát (pás)
         type: object
         fields:
-          - { name: show, label: Anzeigen, type: boolean }
-          - { name: text, label: Zitat, type: text }
+          - { name: show, label: Zobraziť, type: boolean }
+          - { name: text, label: Citát, type: text }
           - { name: author, label: Autor, type: string }
       - name: chiro
         label: Chiropraktik vom Chiropraktor
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: label, label: Kleine Überschrift, type: string }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: label, label: Malý nadpis, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
-          - { name: link_label, label: Link-Text, type: string }
-          - { name: link_url, label: Link, type: string }
+          - { name: link_label, label: Text odkazu, type: string }
+          - { name: link_url, label: Odkaz, type: string }
           - name: gallery
-            label: Kleine Bilder
+            label: Malé obrázky
             type: object
             list: true
             fields:
-              - { name: image, label: Bild, type: image }
-              - { name: alt, label: Alternativtext, type: string }
-      - { name: statement, label: Statement (dunkles Band), type: text }
+              - { name: image, label: Obrázok, type: image }
+              - { name: alt, label: Alternatívny text, type: string }
+      - { name: statement, label: Vyhlásenie (tmavý pás), type: text }
       - name: groups
-        label: Lebenslagen
+        label: Životné situácie
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
-          - { name: items, label: Einträge, type: string, list: true }
+          - { name: heading, label: Nadpis, type: string }
+          - { name: items, label: Položky, type: string, list: true }
       - name: effects
-        label: Positiv beeinflusst
+        label: Pozitívne ovplyvňuje
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - name: items
-            label: Einträge
+            label: Položky
             type: object
             list: true
             fields:
               - { name: label, label: Text, type: string }
               - name: icon
-                label: Symbol
+                label: Ikona
                 type: select
                 options:
                   values:
-                    - { value: stimmung, label: Smiley }
-                    - { value: haltung, label: Wirbelsäule }
-                    - { value: immunsystem, label: Schild }
-                    - { value: energie, label: Blitz }
-                    - { value: stress, label: Puls }
-                    - { value: beweglichkeit, label: Bewegung }
-                    - { value: verdauung, label: Verdauung }
-                    - { value: herz, label: Herz }
-                    - { value: schlaf, label: Mond }
+                    - { value: stimmung, label: Smajlík }
+                    - { value: haltung, label: Chrbtica }
+                    - { value: immunsystem, label: Štít }
+                    - { value: energie, label: Blesk }
+                    - { value: stress, label: Pulz }
+                    - { value: beweglichkeit, label: Pohyb }
+                    - { value: verdauung, label: Trávenie }
+                    - { value: herz, label: Srdce }
+                    - { value: schlaf, label: Mesiac }
       - name: benefits
-        label: Andere Vorteile
+        label: Ďalšie výhody
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - name: items
-            label: Vorteile
+            label: Výhody
             type: object
             list: true
             fields:
-              - { name: image, label: Bild, type: image }
-              - { name: title, label: Titel, type: string }
+              - { name: image, label: Obrázok, type: image }
+              - { name: title, label: Nadpis, type: string }
               - { name: text, label: Text, type: text }
       - name: phases
-        label: Die drei Phasen
+        label: Tri fázy liečby
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
-          - { name: quote, label: Zitat, type: text }
+          - { name: heading, label: Nadpis, type: string }
+          - { name: quote, label: Citát, type: text }
           - name: items
-            label: Phasen
+            label: Fázy
             type: object
             list: true
             fields:
-              - { name: label, label: Kleine Überschrift, type: string }
-              - { name: title, label: Titel, type: string }
+              - { name: label, label: Malý nadpis, type: string }
+              - { name: title, label: Nadpis, type: string }
               - { name: text, label: Text, type: text }
       - name: faq
-        label: FAQ
+        label: Časté otázky (FAQ)
         type: object
         fields:
-          - { name: heading, label: Überschrift, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - name: items
-            label: Fragen
+            label: Otázky
             type: object
             list: true
             fields:
-              - { name: question, label: Frage, type: string }
-              - { name: answer, label: Antwort, type: rich-text }
+              - { name: question, label: Otázka, type: string }
+              - { name: answer, label: Odpoveď, type: rich-text }
       - name: videos
-        label: Videos
+        label: Videá
         type: object
         fields:
           - name: items
-            label: Videos
+            label: Videá
             type: object
             list: true
             fields:
-              - { name: url, label: Link zum Video (YouTube/Vimeo), type: string }
-              - { name: image, label: Vorschaubild, type: image }
-              - { name: title, label: Titel, type: string }
-          - { name: link_label, label: Link-Text darunter, type: string }
-          - { name: link_url, label: Link darunter, type: string }
+              - { name: url, label: Odkaz na video (YouTube/Vimeo), type: string }
+              - { name: image, label: Náhľadový obrázok, type: image }
+              - { name: title, label: Nadpis, type: string }
+          - { name: link_label, label: Text odkazu pod videami, type: string }
+          - { name: link_url, label: Odkaz pod videami, type: string }
 
   # ------------------------------------------------------------------ Chiropraktik
   - name: chiropraktik
@@ -233,116 +234,116 @@ content:
     type: file
     path: content/chiropraktik.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
       - name: hero
-        label: Titelbereich
+        label: Úvodná časť
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: image_position, label: Bildausschnitt, type: string, description: "optional, z. B. 50% 30%" }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: image_position, label: Výrez obrázka, type: string, description: "nepovinné, napr. 50% 30%" }
+          - { name: heading, label: Nadpis, type: string }
       - name: philosophie
         label: Philosophie
         type: object
         fields:
-          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
-          - { name: intro, label: Einleitung, type: text, description: Die erste Zahl im Text wird beim Scrollen hochgezählt. }
+          - { name: nav_label, label: Názov v menu sekcií, type: string }
+          - { name: intro, label: Úvod, type: text, description: Prvé číslo v texte sa pri skrolovaní napočíta. }
           - { name: text, label: Text, type: text }
-          - { name: pillars, label: "Grafik: drei Begriffe", type: string, list: { min: 3, max: 3 } }
+          - { name: pillars, label: "Grafika: tri pojmy", type: string, list: { min: 3, max: 3 } }
       - name: vitalistische
         label: Vitalistische Chiropraktik
         type: object
         fields:
-          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
-          - { name: heading, label: Überschrift, type: string }
-          - { name: lead, label: Einleitung, type: text }
-          - { name: paragraphs, label: Absätze, type: text, list: true }
-          - { name: highlight, label: Hervorgehobener Absatz, type: text }
+          - { name: nav_label, label: Názov v menu sekcií, type: string }
+          - { name: heading, label: Nadpis, type: string }
+          - { name: lead, label: Úvod, type: text }
+          - { name: paragraphs, label: Odseky, type: text, list: true }
+          - { name: highlight, label: Zvýraznený odsek, type: text }
       - name: neurologie
         label: Funktionelle Neurologie
         type: object
         fields:
-          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
-          - { name: heading, label: Überschrift, type: string }
-          - { name: lead, label: Einleitung, type: text }
-          - { name: paragraphs, label: Absätze, type: text, list: true }
+          - { name: nav_label, label: Názov v menu sekcií, type: string }
+          - { name: heading, label: Nadpis, type: string }
+          - { name: lead, label: Úvod, type: text }
+          - { name: paragraphs, label: Odseky, type: text, list: true }
       - name: subluxation
         label: Vertebrale Subluxation
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: heading, label: Überschrift, type: string }
-          - { name: lead, label: Einleitung, type: text }
-          - { name: paragraphs, label: Absätze, type: text, list: true }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: heading, label: Nadpis, type: string }
+          - { name: lead, label: Úvod, type: text }
+          - { name: paragraphs, label: Odseky, type: text, list: true }
       - name: justierung
         label: Justierung
         type: object
         fields:
-          - { name: nav_label, label: Name im Abschnittsmenü, type: string }
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: nav_label, label: Názov v menu sekcií, type: string }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
 
   # ------------------------------------------------------------------ Über Uns
   - name: uber-uns
-    label: Über Uns
+    label: O nás (Über Uns)
     type: file
     path: content/uber-uns.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
       - name: hero
-        label: Titelbereich
+        label: Úvodná časť
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: heading, label: Überschrift, type: text }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: heading, label: Nadpis, type: text }
           - { name: text, label: Text, type: text }
       - name: people
-        label: Team
+        label: Tím
         type: object
         list: true
         fields:
-          - { name: name, label: Name, type: string }
-          - { name: image, label: Foto, type: image }
-          - { name: image_alt, label: Foto – Alternativtext, type: string }
-          - { name: titles, label: Titel / Qualifikationen, type: string, list: true }
-          - { name: bio_heading, label: Überschrift Bio, type: string }
-          - { name: bio_lead, label: Einleitung Bio, type: text }
+          - { name: name, label: Meno, type: string }
+          - { name: image, label: Fotka, type: image }
+          - { name: image_alt, label: Fotka – alternatívny text, type: string }
+          - { name: titles, label: Tituly / kvalifikácie, type: string, list: true }
+          - { name: bio_heading, label: Nadpis bia, type: string }
+          - { name: bio_lead, label: Úvod bia, type: text }
           - { name: bio, label: Bio, type: rich-text }
-          - { name: statement, label: Abschluss-Statement, type: text }
+          - { name: statement, label: Záverečné vyhlásenie, type: text }
 
   # ------------------------------------------------------------------ Erfahrungsberichte
   - name: erfahrungsberichte
-    label: Erfahrungsberichte
+    label: Recenzie (Erfahrungsberichte)
     type: file
     path: content/erfahrungsberichte.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
       - name: hero
-        label: Titelbereich
+        label: Úvodná časť
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: image_position, label: Bildausschnitt, type: string }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: image_position, label: Výrez obrázka, type: string }
+          - { name: heading, label: Nadpis, type: string }
       - name: reviews
-        label: Bewertungen
-        description: Nur echte Bewertungen eintragen, mit Einverständnis der Person. Solange die Liste leer ist, wird der Bereich nicht angezeigt.
+        label: Recenzie
+        description: Zadávaj len skutočné recenzie so súhlasom danej osoby. Kým je zoznam prázdny, sekcia sa na webe nezobrazí.
         type: object
         list: true
         fields:
-          - { name: name, label: Name (z. B. Vorname + Initial), type: string, required: true }
-          - { name: text, label: Bewertung, type: text, required: true }
-          - { name: rating, label: Sterne (1–5), type: number, options: { min: 1, max: 5 } }
-          - { name: date, label: Datum, type: string, description: "z. B. März 2026" }
+          - { name: name, label: Meno (napr. krstné meno + iniciála), type: string, required: true }
+          - { name: text, label: Recenzia, type: text, required: true }
+          - { name: rating, label: Hviezdičky (1–5), type: number, options: { min: 1, max: 5 } }
+          - { name: date, label: Dátum, type: string, description: "napr. März 2026 (zobrazí sa na webe, preto po nemecky)" }
 
   # ------------------------------------------------------------------ Kontakt
   - name: kontakt
@@ -350,87 +351,87 @@ content:
     type: file
     path: content/kontakt.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
       - name: hero
-        label: Titelbereich
+        label: Úvodná časť
         type: object
         fields:
-          - { name: image, label: Bild, type: image }
-          - { name: image_alt, label: Bild – Alternativtext, type: string }
-          - { name: heading, label: Überschrift, type: string }
+          - { name: image, label: Obrázok, type: image }
+          - { name: image_alt, label: Obrázok – alternatívny text, type: string }
+          - { name: heading, label: Nadpis, type: string }
           - { name: text, label: Text, type: text }
-      - { name: maps_label, label: Beschriftung Google-Maps-Link, type: string }
-      - { name: phone_label, label: Beschriftung Telefon, type: string }
-      - { name: email_label, label: Beschriftung E-Mail, type: string }
+      - { name: maps_label, label: Text odkazu na Google Maps, type: string }
+      - { name: phone_label, label: Popis pri telefóne, type: string }
+      - { name: email_label, label: Popis pri e-maile, type: string }
 
-  # ------------------------------------------------------------------ Rechtliches
+  # ------------------------------------------------------------------ Právne texty
   - name: impressum
     label: Impressum
     type: file
     path: content/impressum.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
-      - { name: body, label: Inhalt, type: rich-text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
+      - { name: body, label: Obsah, type: rich-text }
 
   - name: datenschutz
-    label: Datenschutzerklärung
+    label: Ochrana údajov (Datenschutz)
     type: file
     path: content/datenschutz.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung für Google, type: text }
-      - { name: body, label: Inhalt, type: rich-text }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis pre Google, type: text }
+      - { name: body, label: Obsah, type: rich-text }
 
   - name: consent
-    label: Cookie-Banner
+    label: Cookie lišta
     type: file
     path: content/consent.yml
     fields:
-      - { name: title, label: Überschrift, type: string }
+      - { name: title, label: Nadpis, type: string }
       - { name: message, label: Text, type: text }
       - name: functional
-        label: Funktional
+        label: Funkčné (Funktional)
         type: object
         fields:
-          - { name: label, label: Name, type: string }
-          - { name: always, label: Hinweis „immer aktiv“, type: string }
-          - { name: text, label: Beschreibung, type: text }
+          - { name: label, label: Názov, type: string }
+          - { name: always, label: Poznámka „vždy aktívne“, type: string }
+          - { name: text, label: Popis, type: text }
       - name: preferences
-        label: Vorlieben
+        label: Preferencie (Vorlieben)
         type: object
         fields:
-          - { name: label, label: Name, type: string }
-          - { name: text, label: Beschreibung, type: text }
+          - { name: label, label: Názov, type: string }
+          - { name: text, label: Popis, type: text }
       - name: statistics
-        label: Statistiken
+        label: Štatistiky (Statistiken)
         type: object
         fields:
-          - { name: label, label: Name, type: string }
-          - { name: text, label: Beschreibung, type: text }
+          - { name: label, label: Názov, type: string }
+          - { name: text, label: Popis, type: text }
       - name: marketing
         label: Marketing
         type: object
         fields:
-          - { name: label, label: Name, type: string }
-          - { name: text, label: Beschreibung, type: text }
-      - { name: accept, label: Button Akzeptieren, type: string }
-      - { name: deny, label: Button Ablehnen, type: string }
-      - { name: view, label: Button Einstellungen ansehen, type: string }
-      - { name: save, label: Button Einstellungen speichern, type: string }
-      - { name: privacy_label, label: Link Datenschutz, type: string }
-      - { name: imprint_label, label: Link Impressum, type: string }
-      - { name: footer_link, label: Link in der Fußzeile, type: string }
+          - { name: label, label: Názov, type: string }
+          - { name: text, label: Popis, type: text }
+      - { name: accept, label: Tlačidlo Prijať, type: string }
+      - { name: deny, label: Tlačidlo Odmietnuť, type: string }
+      - { name: view, label: Tlačidlo Zobraziť nastavenia, type: string }
+      - { name: save, label: Tlačidlo Uložiť nastavenia, type: string }
+      - { name: privacy_label, label: Odkaz na Datenschutz, type: string }
+      - { name: imprint_label, label: Odkaz na Impressum, type: string }
+      - { name: footer_link, label: Odkaz v pätičke, type: string }
 
   - name: notfound
-    label: Seite nicht gefunden (404)
+    label: Stránka nenájdená (404)
     type: file
     path: content/404.yml
     fields:
-      - { name: title, label: Seitentitel, type: string }
-      - { name: description, label: Beschreibung, type: text }
-      - { name: label, label: Kleine Überschrift, type: string }
-      - { name: heading, label: Überschrift, type: string }
-      - { name: home_label, label: Button Startseite, type: string }
-      - { name: contact_label, label: Button Kontakt, type: string }
+      - { name: title, label: Titulok stránky, type: string }
+      - { name: description, label: Popis, type: text }
+      - { name: label, label: Malý nadpis, type: string }
+      - { name: heading, label: Nadpis, type: string }
+      - { name: home_label, label: Tlačidlo na úvodnú stránku, type: string }
+      - { name: contact_label, label: Tlačidlo Kontakt, type: string }
