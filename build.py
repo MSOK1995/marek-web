@@ -403,7 +403,15 @@ def write_meta(prod, unlisted):
         (DIST / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
 
     # Old WordPress URLs (first match wins, so specific rules come before the catch-all)
-    (DIST / "_redirects").write_text("""/wp-content/privacy-policy-2 /datenschutz 301
+    (DIST / "_redirects").write_text("""/ersttermin /kontakt 301
+/ersttermin/ /kontakt 301
+/hello-world / 301
+/hello-world/ / 301
+/author/* /uber-uns 301
+/category/* / 301
+/wp-sitemap.xml /sitemap.xml 301
+/wp-sitemap* /sitemap.xml 301
+/wp-content/privacy-policy-2 /datenschutz 301
 /wp-content/privacy-policy-2/ /datenschutz 301
 /privacy-policy-2 /datenschutz 301
 /privacy-policy-2/ /datenschutz 301

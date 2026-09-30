@@ -1,4 +1,4 @@
-// PRODUCTION config for thechiropractor.at — NOT deployed yet (the domain is still on IONOS).
+// PRODUCTION config for thechiropractor.at. Deployed by .github/workflows/deploy.yml on every push to main.
 // Build:   python build.py --prod
 // Deploy:  npx wrangler deploy -c wrangler.prod.jsonc   (only after the domain is on Cloudflare)
 {
@@ -12,9 +12,7 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }
-  // After the domain's nameservers point to Cloudflare, add:
-  // "routes": [
-  //   { "pattern": "thechiropractor.at", "custom_domain": true },
-  //   { "pattern": "www.thechiropractor.at", "custom_domain": true }
-  // ]
+  // The domains thechiropractor.at and www.thechiropractor.at are attached in the dashboard
+  // (Workers & Pages -> thechiropractor-at -> Settings -> Domains & Routes -> Add -> Custom domain),
+  // so the API token needs no zone permissions. Deploys without "routes" leave them in place.
 }

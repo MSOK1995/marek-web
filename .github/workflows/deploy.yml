@@ -1,8 +1,9 @@
-# Push to main (also every save in Pages CMS) -> build -> deploy the noindex preview to *.workers.dev.
+# Push to main (also every save in Pages CMS) -> build -> deploy the noindex preview to *.workers.dev
+# and the production build to thechiropractor.at.
 # Needs two repository secrets (Settings -> Secrets and variables -> Actions):
 #   CLOUDFLARE_API_TOKEN   token from the template "Edit Cloudflare Workers", limited to this one account
 #   CLOUDFLARE_ACCOUNT_ID  Cloudflare dashboard -> Workers & Pages -> Account ID
-name: Deploy preview
+name: Deploy
 
 on:
   push:
@@ -13,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: deploy-preview
+  group: deploy
   cancel-in-progress: true   # several quick CMS saves -> only the newest one gets deployed
 
 jobs:
@@ -49,8 +50,18 @@ jobs:
       - run: npm ci
       - run: python build.py
 
-      - name: Deploy to Cloudflare Workers
+      - name: Deploy preview (workers.dev, noindex)
         run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Production: Worker "thechiropractor-at", reachable only through the custom domain thechiropractor.at
+      # (added once in the Cloudflare dashboard, see README). Every CMS save goes live here.
+      - run: python build.py --prod
+
+      - name: Deploy production (thechiropractor.at)
+        run: npx wrangler deploy -c wrangler.prod.jsonc
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
