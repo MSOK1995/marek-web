@@ -7,6 +7,7 @@ Content is edited in Pages CMS (.pages.yml) or directly in content/*.yml.
 Needs: pip install -r requirements.txt, npm ci (Tailwind).
 """
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -262,9 +263,29 @@ def fit_sizes(tag, ratio):
     return tag
 
 
+def cap_dpr(sizes):
+    """Screens with 3x pixel density get 2x images: nobody sees the difference, the phone loads a third less."""
+    entries, depth, cur = [], 0, ""
+    for ch in sizes:  # split on commas outside parentheses (max(a, b) stays whole)
+        depth += (ch == "(") - (ch == ")")
+        if ch == "," and depth == 0:
+            entries.append(cur.strip()); cur = ""
+        else:
+            cur += ch
+    entries.append(cur.strip())
+    capped = []
+    for entry in entries:
+        m = re.match(r"(\([^()]*\)(?:\s+and\s+\([^()]*\))*)\s+(.+)", entry)
+        media, length = (m.group(1), m.group(2)) if m else ("", entry)
+        cond = f"(min-resolution: 2.5dppx) and {media}" if media else "(min-resolution: 2.5dppx)"
+        capped.append(f"{cond} calc({length} * 0.67)")
+    return ", ".join(capped + [sizes])
+
+
 def responsive_images():
-    """WebP copies in several widths for every JPEG/PNG in dist/img, then srcset + width/height on the <img>
-    tags and a preload for the hero image. The original file stays as src (fallback)."""
+    """WebP (and for photos AVIF) copies in several widths for every JPEG/PNG in dist/img, then srcset,
+    width/height on the <img> tags (photos wrapped in <picture>) and a preload for the hero image.
+    The original file stays as src (fallback)."""
     variants = {}
     count = 0
     for img in sorted((DIST / "img").iterdir()):
@@ -274,43 +295,82 @@ def responsive_images():
             size = im.size
             if im.mode not in ("RGB", "RGBA"):
                 im = im.convert("RGBA" if im.mode in ("P", "LA", "PA") or "transparency" in im.info else "RGB")
-            entries = []
+            entries, avif, webp_bytes, avif_bytes = [], [], 0, 0
             for w in [w for w in WEBP_WIDTHS if w < size[0]] + [size[0]]:
+                scaled = im if w == size[0] else im.resize((w, round(size[1] * w / size[0])), Image.LANCZOS)
                 out = img.with_name(f"{img.stem}-{w}.webp")
-                (im if w == size[0] else im.resize((w, round(size[1] * w / size[0])), Image.LANCZOS)).save(
-                    out, "WEBP", quality=80, method=6)
+                scaled.save(out, "WEBP", quality=80, method=6)
+                if img.suffix.lower() != ".png":  # photos only; the small PNG logos gain nothing
+                    a = img.with_name(f"{img.stem}-{w}.avif")
+                    scaled.save(a, "AVIF", quality=60, speed=6)
+                    avif.append(f"/img/{a.name} {w}w")
+                    webp_bytes += out.stat().st_size
+                    avif_bytes += a.stat().st_size
                 if w == size[0] and out.stat().st_size >= img.stat().st_size:
                     out.unlink()  # a full-size WebP that is not smaller: the original covers that width
                     entries.append(f"/img/{img.name} {w}w")
                     continue
                 entries.append(f"/img/{out.name} {w}w")
                 count += 1
-        variants[f"/img/{img.name}"] = (size, ", ".join(entries))
+            if avif and avif_bytes > webp_bytes * 0.95:  # AVIF not clearly smaller for this photo: WebP only
+                for a in avif:
+                    (DIST / a.split()[0].lstrip("/")).unlink()
+                avif = []
+            count += len(avif)
+        variants[f"/img/{img.name}"] = (size, ", ".join(entries), ", ".join(avif))
 
     def tag(m):
         t = m.group(0)
         src = re.search(r'\ssrc="([^"]+)"', t)
         if not src or src.group(1) not in variants or "srcset=" in t:
             return t
-        (w, h), srcset = variants[src.group(1)]
+        (w, h), srcset, avif = variants[src.group(1)]
         t = fit_sizes(t, w / h)
-        extra = f' srcset="{srcset}"' + ("" if "sizes=" in t else ' sizes="100vw"')
+        z = re.search(r'\ssizes="([^"]*)"', t)
+        sizes = cap_dpr(z.group(1) if z else "100vw")
+        t = re.sub(r'\ssizes="[^"]*"', "", t)
+        extra = f' srcset="{srcset}" sizes="{sizes}"'
         if "width=" not in t:
             extra += f' width="{w}" height="{h}"'
-        return t[:4] + extra + t[4:]
+        t = t[:4] + extra + t[4:]
+        if avif:
+            t = f'<picture><source type="image/avif" srcset="{avif}" sizes="{sizes}">{t}</picture>'
+        return t
 
     for page in DIST.glob("*.html"):
         html = re.sub(r"<img\s[^>]*>", tag, page.read_text(encoding="utf-8"))
-        hero = re.search(r'<img\s[^>]*fetchpriority="high"[^>]*>', html)
-        s = hero and re.search(r'srcset="([^"]+)"', hero.group(0))
+        # preload the hero: the AVIF set if there is one (browsers without AVIF skip a typed preload)
+        hero = re.search(r'(?:<picture><source type="image/avif" srcset="([^"]+)"[^>]*>)?<img\s[^>]*fetchpriority="high"[^>]*>', html)
+        s = hero and (hero.group(1) or re.search(r'srcset="([^"]+)"', hero.group(0)).group(1))
         if s:
             z = re.search(r'sizes="([^"]+)"', hero.group(0))
-            link = (f'<link rel="preload" as="image" imagesrcset="{s.group(1)}" '
+            kind = ' type="image/avif"' if hero.group(1) else ""
+            link = (f'<link rel="preload" as="image"{kind} imagesrcset="{s}" '
                     f'imagesizes="{z.group(1) if z else "100vw"}" fetchpriority="high">\n')
             anchor = '<link rel="stylesheet" href="/assets/fonts.css">'
             html = html.replace(anchor, link + anchor, 1)
         page.write_text(html, encoding="utf-8", newline="\n")
-    print("image", count, "webp variants")
+    print("image", count, "webp/avif variants")
+
+
+def hash_assets():
+    """assets/site.css -> assets/site.3f9a1c2e.css (same for every css/js), so they can be cached forever."""
+    renames = {}
+    for f in sorted((DIST / "assets").glob("*.*")):
+        if f.suffix not in (".css", ".js"):
+            continue
+        digest = hashlib.sha256(f.read_bytes()).hexdigest()[:8]
+        new = f.with_name(f"{f.stem}.{digest}{f.suffix}")
+        f.rename(new)
+        renames[f"/assets/{f.name}"] = f"/assets/{new.name}"
+    for page in DIST.glob("*.html"):
+        html = page.read_text(encoding="utf-8")
+        for old, new in renames.items():
+            html = html.replace(f'"{old}"', f'"{new}"')
+        page.write_text(html, encoding="utf-8", newline="\n")
+    missing = [p.name for p in DIST.glob("*.html") if any(f'"{o}"' in p.read_text(encoding="utf-8") for o in renames)]
+    if missing:
+        sys.exit(f"unhashed asset references left in: {', '.join(missing)}")
 
 
 def build_css():
@@ -352,7 +412,7 @@ def write_meta(prod, unlisted):
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
 """ + ("" if prod else "  X-Robots-Tag: noindex, nofollow, noarchive\n") + """
-/assets/fonts/*
+/assets/*
   Cache-Control: public, max-age=31536000, immutable
 
 /img/*
@@ -373,6 +433,7 @@ def main():
     copy_media()
     responsive_images()
     build_css()
+    hash_assets()
     write_meta(prod, unlisted)
     print("done ->", DIST, "(production)" if prod else "(preview, noindex)")
 

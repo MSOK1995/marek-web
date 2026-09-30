@@ -141,7 +141,7 @@
   });
 
   // Scroll-linked effects
-  const heroImg = $('.hero > img, .hc-media');
+  const heroImg = $('.hero > img, .hero > picture > img, .hc-media');
   const parallax = $$('.parallax');
   const timelines = $$('[data-timeline]').map(tl => ({ tl, fill: $('.tl-fill', tl), nodes: $$('.tl-node', tl) }));
   timelines.forEach(t => t.nodes.forEach(n => n.classList.remove('on')));
@@ -156,7 +156,7 @@
     if (heroImg && scrollY < vh * 1.2) heroImg.style.transform = `translate3d(0, ${(scrollY * 0.18).toFixed(1)}px, 0)`;
 
     parallax.forEach(img => {
-      const r = img.parentElement.getBoundingClientRect();
+      const r = (img.parentElement.closest(':not(picture)') || img.parentElement).getBoundingClientRect();
       if (r.bottom < 0 || r.top > vh) return;
       const c = (r.top + r.height / 2 - vh / 2) / vh;
       img.style.transform = `translate3d(0, ${(-c * (+img.dataset.speed || 0.08) * 100).toFixed(2)}%, 0)`;
