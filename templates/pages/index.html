@@ -216,7 +216,7 @@
   <div class="wrap">
     <div class="grid gap-12 md:grid-cols-3 md:gap-8">
 {% for v in page.videos["items"] %}
-      <a href="{{ v.url }}" target="_blank" rel="noopener" class="rv group block"{{ delay(loop.index0 % 3, 0.1) }}>
+      <a href="{{ v.url }}" target="_blank" rel="noopener" class="rv group block"{% if v.url | embed %} data-embed="{{ v.url | embed }}"{% endif %}{{ delay(loop.index0 % 3, 0.1) }}>
         <div class="photo grid place-items-center" style="aspect-ratio: 4/3">
           <img src="{{ v.image }}" alt="" sizes="(min-width: 768px) 31vw, 100vw" data-box="1.33" loading="lazy" class="absolute inset-0">
           <span class="absolute inset-0 bg-[#111827]/25" aria-hidden="true"></span>

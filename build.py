@@ -96,6 +96,17 @@ def count_up(text):
     return Markup(re.sub(r"\b(\d+)\b", r'<span class="num" data-count="\1">\1</span>', esc, count=1))
 
 
+def embed(url):
+    """YouTube / Vimeo link -> player URL (youtube-nocookie, Vimeo do-not-track); "" for anything else."""
+    m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/))([\w-]{11})", url or "")
+    if m:
+        return f"https://www.youtube-nocookie.com/embed/{m.group(1)}?autoplay=1&rel=0"
+    m = re.search(r"vimeo\.com/(?:video/)?(\d+)", url or "")
+    if m:
+        return f"https://player.vimeo.com/video/{m.group(1)}?autoplay=1&dnt=1"
+    return ""
+
+
 def tel(phone):
     return re.sub(r"[^\d+]", "", phone)
 
@@ -181,7 +192,7 @@ def lastmod(name):
 def render_pages(prod):
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True,
                       undefined=ChainableUndefined, trim_blocks=True, keep_trailing_newline=True)
-    env.filters.update(rich=rich, count_up=count_up, tel=tel, urlq=quote_plus)
+    env.filters.update(rich=rich, count_up=count_up, tel=tel, urlq=quote_plus, embed=embed)
     site, consent = load("site"), load("consent")
     env.globals.update(site=site, consent=consent, icons=ICONS, delay=delay, delay_css=delay_css,
                        current=current, origin=ORIGIN)

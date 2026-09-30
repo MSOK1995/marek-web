@@ -98,6 +98,21 @@
   $$('.fill-text [data-split]').forEach(el => {
     el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
   });
+  // Videos: play in place on click; YouTube/Vimeo are only contacted after the click
+  $$('a[data-embed]').forEach(a => a.addEventListener('click', e => {
+    const box = a.querySelector('.photo');
+    if (!box || e.metaKey || e.ctrlKey || e.shiftKey) return;  // modifier click: open on YouTube/Vimeo as before
+    e.preventDefault();
+    const f = document.createElement('iframe');
+    f.src = a.dataset.embed;
+    f.title = a.querySelector('h2, h3')?.textContent.trim() || 'Video';
+    f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
+    f.allowFullscreen = true;
+    f.className = 'absolute inset-0 h-full w-full bg-black';
+    box.replaceChildren(f);
+    ['href', 'target', 'rel', 'data-embed'].forEach(n => a.removeAttribute(n));  // it is a player now, not a link
+  }, { once: true }));
+
   const fills = $$('.fill-text').map(el => ({ el, words: $$('.w', el) }));
 
   // Header state is needed even with reduced motion
