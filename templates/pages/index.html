@@ -235,4 +235,21 @@
     </div>
   </div>
 </section>
+{% if site.associations %}
+
+<!-- Mitgliedschaften: the association logos from "Allgemein", large -->
+<section class="sec !pt-0" aria-label="Mitgliedschaften">
+  <div class="wrap">
+    <ul class="grid gap-4 border-t border-line pt-14 sm:grid-cols-3 sm:gap-6 lg:pt-20">
+{% for a in site.associations %}
+      <li class="rv"{{ delay(loop.index0, 0.08) }}>
+        <div class="grid aspect-[3/2] place-items-center overflow-hidden rounded-[4px] p-8 lg:p-12 {{ 'bg-ink' if a.style == 'dark' else 'bg-white ring-1 ring-line' }}">
+          <img src="{{ a.image }}" alt="{{ a.alt }}" sizes="(min-width: 640px) 30vw, 90vw" class="h-full w-full object-contain" loading="lazy">
+        </div>
+      </li>
+{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
