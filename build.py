@@ -7,12 +7,14 @@ Content is edited in Pages CMS (.pages.yml) or directly in content/*.yml.
 Needs: pip install -r requirements.txt, npm ci (Tailwind).
 """
 import argparse
+import json
 import os
 import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+from datetime import date
 from urllib.parse import quote_plus
 
 import yaml
@@ -25,6 +27,7 @@ CONTENT = ROOT / "content"
 DIST = ROOT / "dist"
 ORIGIN = "https://thechiropractor.at"
 MAX_IMG = 2560  # px, longest side; larger CMS uploads (e.g. straight from a phone) get scaled down in dist/
+WEBP_WIDTHS = (480, 800, 1200, 1600, 2000, 2560)  # srcset steps; only those below the image width are made
 
 # name -> template, content file, full-bleed hero (transparent header), nav key for aria-current
 PAGES = {
@@ -96,6 +99,82 @@ def tel(phone):
     return re.sub(r"[^\d+]", "", phone)
 
 
+# ---- structured data ----------------------------------------------------------
+
+def _plain(text):
+    return (text or "").replace("\u00ad", "").strip()
+
+
+def _person_name(full):
+    """'Mgr. Marek Sukenik, MSc.' -> ('Marek Sukenik', 'Mgr.', 'MSc.')"""
+    name, _, suffix = _plain(full).partition(",")
+    m = re.match(r"((?:[A-Za-z]+\.\s*)+)(.*)", name.strip())
+    prefix, name = (m.group(1).strip(), m.group(2).strip()) if m else ("", name.strip())
+    return name, prefix, suffix.strip()
+
+
+def json_ld(name, page, site, team):
+    """schema.org graph, built only from facts that are already on the site (plus the GBR number)."""
+    biz_id, site_id = f"{ORIGIN}/#praxis", f"{ORIGIN}/#website"
+    street, _, rest = site["address"].partition(",")
+    plz, _, city = rest.strip().partition(" ")
+    people = []
+    for i, m in enumerate(team):
+        pname, prefix, suffix = _person_name(m.get("name"))
+        person = {"@type": "Person", "@id": f"{ORIGIN}/uber-uns#person-{i + 1}", "name": pname,
+                  "url": f"{ORIGIN}/uber-uns", "worksFor": {"@id": biz_id}}
+        if prefix:
+            person["honorificPrefix"] = prefix
+        if suffix:
+            person["honorificSuffix"] = suffix
+        if m.get("image"):
+            person["image"] = ORIGIN + m["image"]
+        if m.get("titles"):
+            person["jobTitle"] = [_plain(x) for x in m["titles"]]
+        if i == 0 and site.get("gbr_number"):
+            person["hasCredential"] = {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "Berufsberechtigung",
+                "name": "Physiotherapeut",
+                "identifier": site["gbr_number"],
+                "recognizedBy": {"@type": "GovernmentOrganization", "name": "Gesundheitsberuferegister",
+                                 "url": "https://gbr-public.ehealth.gv.at/"},
+            }
+        people.append(person)
+    biz = {
+        "@type": ["MedicalBusiness", "Physiotherapy"], "@id": biz_id, "name": site["name"],
+        "url": ORIGIN + "/", "logo": ORIGIN + site["logo"], "image": ORIGIN + site["og_image"],
+        "telephone": site["phone"], "email": site["email"],
+        "address": {"@type": "PostalAddress", "streetAddress": street.strip(), "postalCode": plz,
+                    "addressLocality": city, "addressCountry": "AT"},
+        "areaServed": {"@type": "City", "name": city},
+    }
+    if people:
+        biz["employee"] = [{"@id": x["@id"]} for x in people]
+    if any(site.get("same_as") or []):
+        biz["sameAs"] = [u for u in site["same_as"] if u]
+    graph = [biz, {"@type": "WebSite", "@id": site_id, "url": ORIGIN + "/", "name": site["name"],
+                   "inLanguage": "de-AT", "publisher": {"@id": biz_id}}] + people
+    if name != "index":
+        graph.append({"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Startseite", "item": ORIGIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": _plain(page["title"]), "item": f"{ORIGIN}/{name}"},
+        ]})
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, separators=(",", ":"))
+    return Markup(data.replace("</", "<\\/"))
+
+
+def lastmod(name):
+    """Date of the last commit that touched the page's content or template (for the sitemap)."""
+    tpl, content, *_ = PAGES[name]
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", f"content/{content}.yml", f"templates/{tpl}"],
+                             cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        out = ""
+    return out or date.today().isoformat()
+
+
 # ---- build ------------------------------------------------------------------
 
 def render_pages(prod):
@@ -108,19 +187,34 @@ def render_pages(prod):
     if site.get("theme", "sand") not in THEME_COLOR:
         sys.exit(f"content/site.yml: unknown theme {site['theme']!r}")
 
+    team = load("uber-uns").get("people") or []
+    unlisted = set()  # pages kept out of the sitemap
     for name, (tpl, content, hero, active) in PAGES.items():
         page = load(content)
         url = "/" if name == "index" else f"/{name}"
         is_404 = name == "404"
+        # a testimonials page without testimonials stays out of Google until the first real one is added
+        empty = name == "erfahrungsberichte" and not page.get("reviews")
+        if empty or is_404:
+            unlisted.add(name)
+        if is_404:
+            noindex = "noindex"
+        elif not prod:
+            noindex = "noindex, nofollow, noarchive"
+        else:
+            noindex = "noindex, follow" if empty else None
+        og_image = team[0]["image"] if name == "uber-uns" and team and team[0].get("image") else site["og_image"]
         html = env.get_template(tpl).render(
             page=page, hero=hero, active=active,
             full_title=page["title"] if page["title"] == site["name"] else f'{page["title"]} – {site["name"]}',
             canonical=None if is_404 else ORIGIN + url,
-            noindex="noindex" if is_404 else (None if prod else "noindex, nofollow, noarchive"),
+            noindex=noindex, og_image=og_image,
+            json_ld=None if is_404 else json_ld(name, page, site, team),
             theme_color=THEME_COLOR[site.get("theme", "sand")],
         )
         (DIST / f"{name}.html").write_text(html, encoding="utf-8", newline="\n")
         print("page ", f"{name}.html")
+    return unlisted
 
 
 def copy_media():
@@ -148,6 +242,77 @@ def copy_media():
                         print("image", src.name, "scaled to", im.size)
 
 
+def fit_sizes(tag, ratio):
+    """object-fit: cover shows a wide image wider than its box. The templates give the box shape
+    (data-box = width/height, data-hero = height in vh of a full-width hero); scale `sizes` to match."""
+    hero = re.search(r'\sdata-hero="([\d.]+)"', tag)
+    box = re.search(r'\sdata-box="([\d.]+)"', tag)
+    tag = re.sub(r'\sdata-(hero|box)="[^"]*"', "", tag)
+    if hero:
+        return re.sub(r'\ssizes="[^"]*"', "", tag).replace("<img", f'<img sizes="max(100vw, {float(hero.group(1)) * ratio:.0f}vh)"', 1)
+    if box and ratio > float(box.group(1)):
+        k = ratio / float(box.group(1))
+        def scale(m):
+            parts = []
+            for entry in m.group(1).split(","):
+                media, _, length = entry.strip().rpartition(" ")
+                parts.append(f"{media} calc({length} * {k:.2f})".strip())
+            return f' sizes="{", ".join(parts)}"'
+        tag = re.sub(r'\ssizes="([^"]*)"', scale, tag)
+    return tag
+
+
+def responsive_images():
+    """WebP copies in several widths for every JPEG/PNG in dist/img, then srcset + width/height on the <img>
+    tags and a preload for the hero image. The original file stays as src (fallback)."""
+    variants = {}
+    count = 0
+    for img in sorted((DIST / "img").iterdir()):
+        if img.suffix.lower() not in (".jpg", ".jpeg", ".png"):
+            continue
+        with Image.open(img) as im:
+            size = im.size
+            if im.mode not in ("RGB", "RGBA"):
+                im = im.convert("RGBA" if im.mode in ("P", "LA", "PA") or "transparency" in im.info else "RGB")
+            entries = []
+            for w in [w for w in WEBP_WIDTHS if w < size[0]] + [size[0]]:
+                out = img.with_name(f"{img.stem}-{w}.webp")
+                (im if w == size[0] else im.resize((w, round(size[1] * w / size[0])), Image.LANCZOS)).save(
+                    out, "WEBP", quality=80, method=6)
+                if w == size[0] and out.stat().st_size >= img.stat().st_size:
+                    out.unlink()  # a full-size WebP that is not smaller: the original covers that width
+                    entries.append(f"/img/{img.name} {w}w")
+                    continue
+                entries.append(f"/img/{out.name} {w}w")
+                count += 1
+        variants[f"/img/{img.name}"] = (size, ", ".join(entries))
+
+    def tag(m):
+        t = m.group(0)
+        src = re.search(r'\ssrc="([^"]+)"', t)
+        if not src or src.group(1) not in variants or "srcset=" in t:
+            return t
+        (w, h), srcset = variants[src.group(1)]
+        t = fit_sizes(t, w / h)
+        extra = f' srcset="{srcset}"' + ("" if "sizes=" in t else ' sizes="100vw"')
+        if "width=" not in t:
+            extra += f' width="{w}" height="{h}"'
+        return t[:4] + extra + t[4:]
+
+    for page in DIST.glob("*.html"):
+        html = re.sub(r"<img\s[^>]*>", tag, page.read_text(encoding="utf-8"))
+        hero = re.search(r'<img\s[^>]*fetchpriority="high"[^>]*>', html)
+        s = hero and re.search(r'srcset="([^"]+)"', hero.group(0))
+        if s:
+            z = re.search(r'sizes="([^"]+)"', hero.group(0))
+            link = (f'<link rel="preload" as="image" imagesrcset="{s.group(1)}" '
+                    f'imagesizes="{z.group(1) if z else "100vw"}" fetchpriority="high">\n')
+            anchor = '<link rel="stylesheet" href="/assets/fonts.css">'
+            html = html.replace(anchor, link + anchor, 1)
+        page.write_text(html, encoding="utf-8", newline="\n")
+    print("image", count, "webp variants")
+
+
 def build_css():
     npx = "npx.cmd" if os.name == "nt" else "npx"
     subprocess.run([npx, "--no-install", "tailwindcss", "-c", str(ROOT / "tailwind.config.js"),
@@ -155,13 +320,14 @@ def build_css():
                    check=True)
 
 
-def write_meta(prod):
+def write_meta(prod, unlisted):
     if prod:
         (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n", encoding="utf-8")
-        urls = ["/" if n == "index" else f"/{n}" for n in PAGES if n != "404"]
+        urls = [("/" if n == "index" else f"/{n}", lastmod(n)) for n in PAGES if n not in unlisted]
         (DIST / "sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            + "".join(f"  <url><loc>{ORIGIN}{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+            + "".join(f"  <url><loc>{ORIGIN}{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls)
+            + "</urlset>\n", encoding="utf-8")
     else:
         (DIST / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
 
@@ -203,10 +369,11 @@ def main():
     DIST.mkdir(exist_ok=True)
     for p in DIST.iterdir():
         shutil.rmtree(p) if p.is_dir() else p.unlink()
-    render_pages(prod)
+    unlisted = render_pages(prod)
     copy_media()
+    responsive_images()
     build_css()
-    write_meta(prod)
+    write_meta(prod, unlisted)
     print("done ->", DIST, "(production)" if prod else "(preview, noindex)")
 
 

@@ -32,6 +32,8 @@ jobs:
           exit $missing
 
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # full history: build.py takes sitemap <lastmod> from git
 
       - uses: actions/setup-python@v6
         with:

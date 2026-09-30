@@ -34,6 +34,12 @@ content:
       - { name: address, label: Adresa, type: string, description: Používa sa aj pre odkaz na Google Maps. }
       - { name: phone, label: Telefón, type: string }
       - { name: email, label: E-mail, type: string }
+      - { name: gbr_number, label: Číslo v Gesundheitsberuferegister, type: string, description: 'Nezobrazuje sa na stránke, len v údajoch pre Google (JSON-LD). Napr. 19-GBR-080590.' }
+      - name: same_as
+        label: Profily na iných stránkach
+        description: 'Celé odkazy na Google Business Profile, Facebook, Instagram, Herold, docfinder a pod. Nezobrazujú sa na stránke, Google z nich vie, že patria k tejto praxi.'
+        type: string
+        list: true
       - name: nav
         label: Hlavné menu
         type: object

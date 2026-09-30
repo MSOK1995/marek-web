@@ -15,13 +15,16 @@
 <meta property="og:url" content="{{ canonical }}">
 <link rel="canonical" href="{{ canonical }}">
 {% endif %}
-<meta property="og:image" content="{{ origin }}{{ site.og_image }}">
+<meta property="og:image" content="{{ origin }}{{ og_image }}">
 <meta name="theme-color" content="{{ theme_color }}">
 <link rel="icon" href="{{ site.logo }}">
 <link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/tw.css">
+{% if json_ld %}
+<script type="application/ld+json">{{ json_ld }}</script>
+{% endif %}
 </head>
 <body class="{{ 'has-hero' if hero else '' }}">
 {% include "partials/header.html" %}

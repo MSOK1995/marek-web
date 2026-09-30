@@ -2,7 +2,7 @@
 {% from "partials/macros.html" import booking %}
 {% block main %}
 <section class="hero hero-sub">
-  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" fetchpriority="high">
+  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" data-hero="80" fetchpriority="high">
   <div class="hero-inner">
     <div class="wrap grid gap-8 lg:grid-cols-12 lg:items-end">
       <h1 class="t-h1 lg:col-span-8">{{ page.hero.heading }}</h1>
@@ -18,7 +18,7 @@
     <div class="lg:col-span-5">
       <div class="lg:sticky lg:top-[calc(var(--hdr-h)_+_2rem)]">
         <div class="rv photo" style="aspect-ratio: 4/5; max-width: 100%;">
-          <img src="{{ m.image }}" alt="{{ m.image_alt }}" class="parallax !h-[110%] object-top" data-speed="0.05" style="margin-top:-5%">
+          <img src="{{ m.image }}" alt="{{ m.image_alt }}" sizes="(min-width: 1024px) 40vw, 100vw" data-box="0.73" class="parallax !h-[110%] object-top" data-speed="0.05" style="margin-top:-5%">
         </div>
       </div>
     </div>

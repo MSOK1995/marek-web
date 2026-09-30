@@ -125,7 +125,15 @@ body:not(.has-hero) main { padding-top: var(--hdr-h); }
 .consent-switch input:checked + span { background: var(--lemon); }
 .consent-switch input:checked + span::after { transform: translateX(1.1rem); }
 .consent-switch input:focus-visible + span { outline: 2px solid var(--bronze); outline-offset: 2px; }
-@media (max-width: 480px) { .consent { right: 0; bottom: 0; width: 100%; border-radius: 10px 10px 0 0; padding: 1.25rem 20px calc(1.25rem + env(safe-area-inset-bottom, 0px)); } }
+@media (max-width: 480px) {
+  .consent { right: 0; bottom: 0; width: 100%; border-radius: 10px 10px 0 0; padding: 1rem 16px calc(.9rem + env(safe-area-inset-bottom, 0px)); }
+  /* compact on phones so the hero stays visible behind the bar */
+  .consent .t-h3 { font-size: 1.05rem; }
+  .consent-msg { margin-top: .4rem; font-size: .8rem; line-height: 1.5; }
+  .consent > .grid { margin-top: .85rem; }
+  .consent .btn { height: 2.5rem !important; font-size: .92rem; }
+  .consent > ul { margin-top: .6rem; }
+}
 
 /* Photos */
 .photo { position: relative; overflow: hidden; border-radius: 4px; background: var(--line); }

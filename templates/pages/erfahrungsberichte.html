@@ -2,7 +2,7 @@
 {% from "partials/macros.html" import booking, steps %}
 {% block main %}
 <section class="hero hero-sub">
-  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" fetchpriority="high"{% if page.hero.image_position %} style="object-position: {{ page.hero.image_position }}"{% endif %}>
+  <img src="{{ page.hero.image }}" alt="{{ page.hero.image_alt }}" data-hero="80" fetchpriority="high"{% if page.hero.image_position %} style="object-position: {{ page.hero.image_position }}"{% endif %}>
   <div class="hero-inner">
     <div class="wrap">
       <h1 class="t-hero">{{ page.hero.heading }}</h1>

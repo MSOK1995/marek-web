@@ -12,6 +12,9 @@ booking_label: Termin buchen
 address: Joanelligasse 10/11, 1060 Wien
 phone: +43 660 6276758
 email: info@thechiropractor.at
+# nur für strukturierte Daten (JSON-LD), nicht sichtbar
+gbr_number: 19-GBR-080590
+same_as: []
 
 nav:
   - label: Chiropraktik
