@@ -34,6 +34,14 @@ content:
       - { name: address, label: Adresa, type: string, description: Používa sa aj pre odkaz na Google Maps. }
       - { name: phone, label: Telefón, type: string }
       - { name: email, label: E-mail, type: string }
+      - name: opening_hours
+        label: Otváracie hodiny
+        description: 'Dni po nemecky (napr. Montag – Donnerstag alebo Samstag, Sonntag), čas v tvare 08:00 – 19:00 alebo „geschlossen“. Zobrazuje sa na stránke Kontakt a v údajoch pre Google.'
+        type: object
+        list: true
+        fields:
+          - { name: days, label: Dni, type: string }
+          - { name: hours, label: Čas, type: string }
       - { name: gbr_number, label: Číslo v Gesundheitsberuferegister, type: string, description: 'Nezobrazuje sa na stránke, len v údajoch pre Google (JSON-LD). Napr. 19-GBR-080590.' }
       - name: same_as
         label: Profily na iných stránkach
@@ -106,6 +114,7 @@ content:
               - { name: quote, label: Citát, type: text }
               - { name: author, label: Autor, type: string }
               - { name: image, label: Obrázok na pozadí, type: image }
+              - { name: image_alt, label: Obrázok – alternatívny text, type: string }
               - { name: image_position, label: Výrez obrázka, type: string, description: "nepovinné, napr. 50% 30% (vodorovne zvisle)" }
               - { name: long, label: Dlhý citát (menšie písmo), type: boolean }
           - { name: heading, label: Nadpis vpravo, type: string }
@@ -191,6 +200,7 @@ content:
             list: true
             fields:
               - { name: image, label: Obrázok, type: image }
+              - { name: image_alt, label: Obrázok – alternatívny text, type: string }
               - { name: title, label: Nadpis, type: string }
               - { name: text, label: Text, type: text }
       - name: phases
@@ -370,6 +380,7 @@ content:
       - { name: maps_label, label: Text odkazu na Google Maps, type: string }
       - { name: phone_label, label: Popis pri telefóne, type: string }
       - { name: email_label, label: Popis pri e-maile, type: string }
+      - { name: hours_label, label: Nadpis otváracích hodín, type: string }
 
   # ------------------------------------------------------------------ Právne texty
   - name: impressum

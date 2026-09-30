@@ -6,19 +6,22 @@ hero:
     - quote: '"Die Kraft, die den Körper erschafft, heilt den Körper. Es geschieht auf keine andere Weise."'
       author: B.J. Palmer
       image: /img/justierung.jpg
+      image_alt: Chiropraktische Behandlung der Halswirbelsäule
       image_position: ''
       long: false
-    - quote: '"Medicine is the study of disease and what causes man to die. Chiropractic is the study of health and what causes man to live."'
+    - quote: '"Die Medizin ist die Lehre von der Krankheit und davon, woran der Mensch stirbt. Die Chiropraktik ist die Lehre von der Gesundheit und davon, was den Menschen leben lässt."'
       author: B.J. Palmer
       image: /img/hero-wide.jpg
+      image_alt: Chiropraktische Behandlung des unteren Rückens
       image_position: ''
       long: true
     - quote: Das Leben ist ein Prozess und kein Ereignis, genau so wie dein Heilungsprozess.
       author: ''
       image: /img/t-div.jpg
+      image_alt: Chiropraktische Untersuchung der Wirbelsäule
       image_position: 50% 30%
       long: false
-  heading: Healing is a natural process
+  heading: Heilung ist ein natürlicher Prozess
   lead: Die beste Entscheidung für deine Gesundheit.
 
 philosophy:
@@ -89,21 +92,27 @@ benefits:
   heading: 'Andere Vorteile der chiropraktischen Behandlung:'
   items:
     - image: /img/b-1.jpg
+      image_alt: Hände greifen eine Langhantel beim Krafttraining
       title: Gesteigerte Leistungsfähigkeit
       text: Chiropraktik löst muskuläre Verspannungen und verbessert die Kommunikation zwischen Gehirn und Körper, wodurch Konzentration, Klarheit und geistige Vitalität im Alltag spürbar gesteigert werden.
     - image: /img/b-2.jpg
+      image_alt: Frau mit erhobenen Armen auf einem Berggipfel
       title: Beschwerdefreiheit
       text: Mit gezielten Justierungen zielt die Chiropraktik darauf ab, nicht nur Symptome zu lindern, sondern auch deren Ursachen zu beheben, was zu einer deutlichen Schmerzreduktion und einer gesteigerten Lebensqualität beiträgt.
     - image: /img/b-3.jpg
+      image_alt: Frau schläft entspannt im Bett
       title: Verbesserte Schlafqualität
       text: Die Chiropraktik unterstützt durch die Harmonisierung des Nervensystems und die Lösung von Spannungen im Körper eine bessere Schlafqualität, indem sie häufige Schlafstörungen reduziert.
     - image: /img/b-4.jpg
+      image_alt: Frau in einer tiefen Dehnübung
       title: Mehr Bewegungsfreiheit
       text: Chiropraktische Behandlungen steigern die Flexibilität, indem sie gezielt die Beweglichkeit fördern und Spannungen in Muskeln sowie Gelenken effektiv lösen.
     - image: /img/b-5.jpg
+      image_alt: Lächelnder Mann mit Tasse im Freien
       title: Stressresistenz
       text: Chiropraktik stärkt durch präzise Anpassungen das Nervensystem und ermöglicht es dem Körper, Belastungen und Herausforderungen des Alltags effektiver zu bewältigen.
     - image: /img/b-6.jpg
+      image_alt: Entspannte Hände vor einem Winterhimmel
       title: Verbesserete Regeneration
       text: Durch die Optimierung des Nervensystems fördert Chiropraktik eine schnellere Regeneration und aktiviert die natürlichen Selbstheilungskräfte des Körpers.
 

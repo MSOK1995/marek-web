@@ -3,7 +3,7 @@ description: 'Kontakt – The Chiropractor Wien, Joanelligasse 10/11, 1060 Wien.
 
 hero:
   image: /img/t-ak.jpg
-  image_alt: ''
+  image_alt: Sanfte Behandlung am Kopf in der Praxis
   heading: Kontakt
   text: Buche dir online deinen Ersttermin zu deiner Wunschzeit. Falls du keinen passenden Termin findest, melde dich gerne bei uns.
 
@@ -11,3 +11,4 @@ hero:
 maps_label: Google Maps
 phone_label: 'Tel.:'
 email_label: 'Mail:'
+hours_label: Öffnungszeiten

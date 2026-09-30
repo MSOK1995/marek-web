@@ -6,7 +6,7 @@
 <section class="hero hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Zitate">
   <div class="hc-media" aria-hidden="true">
 {% for s in h.slides %}
-    <img src="{{ s.image }}" alt="" data-hero="105"{% if loop.first %} class="is-on" fetchpriority="high"{% else %} loading="lazy"{% endif %}{% if s.image_position %} style="object-position: {{ s.image_position }}"{% endif %}>
+    <img src="{{ s.image }}" alt="{{ s.image_alt }}" data-hero="105"{% if loop.first %} class="is-on" fetchpriority="high"{% else %} loading="lazy"{% endif %}{% if s.image_position %} style="object-position: {{ s.image_position }}"{% endif %}>
 {% endfor %}
   </div>
   <div class="hero-inner">
@@ -146,7 +146,7 @@
     <div class="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
 {% for b in page.benefits["items"] %}
       <article class="rv group"{{ delay(loop.index0 % 3, 0.1) }}>
-        <div class="photo" style="aspect-ratio: 4/5"><img src="{{ b.image }}" alt="" sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw" data-box="0.8" loading="lazy"></div>
+        <div class="photo" style="aspect-ratio: 4/5"><img src="{{ b.image }}" alt="{{ b.image_alt }}" sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw" data-box="0.8" loading="lazy"></div>
         <h3 class="t-h3 mt-6">{{ b.title }}</h3>
         <p class="t-small mt-3">{{ b.text }}</p>
       </article>

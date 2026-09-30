@@ -12,6 +12,14 @@ booking_label: Termin buchen
 address: Joanelligasse 10/11, 1060 Wien
 phone: +43 660 6276758
 email: info@thechiropractor.at
+# Öffnungszeiten (Kontaktseite und JSON-LD). Tage: Montag – Donnerstag, Samstag, Sonntag …; Zeit: 08:00 – 19:00 oder "geschlossen"
+opening_hours:
+  - days: Montag – Donnerstag
+    hours: 08:00 – 19:00
+  - days: Freitag
+    hours: 08:00 – 15:00
+  - days: Samstag, Sonntag
+    hours: geschlossen
 # nur für strukturierte Daten (JSON-LD), nicht sichtbar
 gbr_number: 19-GBR-080590
 same_as: []

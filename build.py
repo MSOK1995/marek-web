@@ -125,6 +125,30 @@ def _person_name(full):
     return name, prefix, suffix.strip()
 
 
+DAYS = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
+DAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+
+def opening_hours(rows):
+    """site.opening_hours (German day names, "08:00 – 19:00") -> schema.org OpeningHoursSpecification.
+    Closed days are left out, which is how schema.org expresses them."""
+    specs = []
+    for row in rows:
+        times = re.findall(r"\d{1,2}[:.]\d{2}", row.get("hours") or "")
+        if len(times) != 2:
+            continue
+        days = []
+        for part in re.split(r"\s*,\s*", row.get("days") or ""):
+            ends = [d for d in re.split(r"\s*[–-]\s*", part.strip()) if d]
+            if not all(d in DAYS for d in ends):
+                sys.exit(f"opening_hours: unknown day in {row['days']!r}")
+            if ends:
+                days += DAYS_EN[DAYS.index(ends[0]):DAYS.index(ends[-1]) + 1]
+        opens, closes = (t.replace(".", ":").zfill(5) for t in times)
+        specs.append({"@type": "OpeningHoursSpecification", "dayOfWeek": days, "opens": opens, "closes": closes})
+    return specs
+
+
 def json_ld(name, page, site, team):
     """schema.org graph, built only from facts that are already on the site (plus the GBR number)."""
     biz_id, site_id = f"{ORIGIN}/#praxis", f"{ORIGIN}/#website"
@@ -161,6 +185,9 @@ def json_ld(name, page, site, team):
                     "addressLocality": city, "addressCountry": "AT"},
         "areaServed": {"@type": "City", "name": city},
     }
+    hours = opening_hours(site.get("opening_hours") or [])
+    if hours:
+        biz["openingHoursSpecification"] = hours
     if people:
         biz["employee"] = [{"@id": x["@id"]} for x in people]
     if any(site.get("same_as") or []):

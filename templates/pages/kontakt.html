@@ -35,5 +35,19 @@
       <p class="t-h3 mt-1 break-all">{{ site.email }}</p>
     </a>
   </div>
+{% if site.opening_hours %}
+  <div class="wrap mt-px grid gap-px bg-line p-px md:grid-cols-3">
+      <div class="rv flex flex-col bg-paper p-8 sm:p-10">
+        <svg class="text-bronze" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <h2 class="t-h3 mt-8">{{ page.hours_label }}</h2>
+      </div>
+      <dl class="rv grid grid-cols-[auto_1fr] content-center gap-x-8 gap-y-3 bg-paper p-8 sm:gap-x-10 sm:p-10 md:col-span-2" style="--d:.08s">
+{% for o in site.opening_hours %}
+        <dt class="t-small">{{ o.days }}</dt>
+        <dd class="num{{ ' text-muted' if 'geschlossen' in o.hours | lower }}">{{ o.hours }}</dd>
+{% endfor %}
+      </dl>
+  </div>
+{% endif %}
 </section>
 {% endblock %}
