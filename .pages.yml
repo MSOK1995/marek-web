@@ -333,6 +333,16 @@ content:
           - { name: bio_lead, label: Úvod bia, type: text }
           - { name: bio, label: Bio, type: rich-text }
           - { name: statement, label: Záverečné vyhlásenie, type: text }
+          - { name: motto, label: Veta pod nadpisom bia, type: text }
+          - { name: education_label, label: Vzdelanie – malý nadpis, type: string }
+          - name: education
+            label: Vzdelanie a kurzy
+            type: object
+            list: true
+            fields:
+              - { name: heading, label: Nadpis skupiny, type: string }
+              - { name: lead, label: Hlavný riadok (tučne), type: text }
+              - { name: items, label: Položky, type: string, list: true }
 
   # ------------------------------------------------------------------ Erfahrungsberichte
   - name: erfahrungsberichte

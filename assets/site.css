@@ -105,6 +105,14 @@ body:not(.has-hero) main { padding-top: var(--hdr-h); }
 .faq summary:hover .t-h3 { color: var(--bronze); }
 .faq-body { display: grid; gap: 1rem; padding-bottom: 2rem; max-width: 64ch; color: var(--muted); line-height: 1.8; }
 .faq strong, .bio strong { color: var(--ink); font-weight: 600; }
+.faq-body ul, .cred ul { display: grid; gap: .45rem; }
+.faq-body li, .cred li { position: relative; padding-left: 1.25rem; break-inside: avoid; }
+.faq-body li::before, .cred li::before { content: ""; position: absolute; left: 0; top: .85em; width: .5rem; height: 1.5px; background: var(--bronze); }
+/* Über uns: education and courses */
+.cred { display: grid; gap: 3.5rem; }
+.cred ul { display: block; margin-top: 1.25rem; color: var(--muted); line-height: 1.7; }
+.cred li + li { margin-top: .5rem; }
+.cred-lead { color: var(--ink); font-weight: 600; line-height: 1.6; }
 
 /* Cookie consent (bottom-right card; full width on phones) */
 .consent { position: fixed; right: 16px; bottom: 16px; z-index: 60; width: min(27rem, calc(100vw - 32px)); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--paper); color: var(--ink); border-radius: 6px; padding: 1.5rem; box-shadow: 0 30px 70px -20px rgba(0,0,0,.4), 0 0 0 1px var(--line); opacity: 0; transform: translateY(14px); transition: opacity .4s var(--ease), transform .4s var(--ease); }

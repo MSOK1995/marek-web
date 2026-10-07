@@ -33,6 +33,9 @@
 {% endif %}
       <div class="bio mt-12 border-t border-line pt-10">
         <h3 class="rv t-h3">{{ m.bio_heading }}</h3>
+{% if m.motto %}
+        <p class="rv t-quote mt-5 text-[1.6rem] text-ink sm:text-[1.9rem]" lang="en">{{ m.motto }}</p>
+{% endif %}
 {% if m.bio_lead %}
         <p class="rv t-lead mt-5">{{ m.bio_lead }}</p>
 {% endif %}
@@ -48,5 +51,31 @@
     </div>
   </article>
 </section>
+{% if m.education %}
+
+<!-- {{ m.name }}: Ausbildung -->
+<section class="sec sec-blush scroll-mt-[var(--hdr-h)]"{% if loop.first %} id="ausbildung"{% endif %}>
+  <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <h2 class="rv t-name lg:col-span-4 lg:pt-2">{{ m.education_label }}</h2>
+    <div class="cred lg:col-span-8">
+{% for g in m.education %}
+      <div class="rv">
+{% if g.heading %}
+        <h3 class="t-h3">{{ g.heading }}</h3>
+{% endif %}
+{% if g.lead %}
+        <p class="cred-lead{{ ' mt-4' if g.heading }}">{{ g.lead }}</p>
+{% endif %}
+        <ul class="{{ 'md:columns-2 md:gap-12' if g['items'] | length > 10 }}">
+{% for x in g['items'] %}
+          <li>{{ x }}</li>
+{% endfor %}
+        </ul>
+      </div>
+{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endfor %}
 {% endblock %}
