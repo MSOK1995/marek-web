@@ -11,13 +11,18 @@
 <meta property="og:title" content="{{ full_title }}">
 <meta property="og:description" content="{{ page.description }}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:locale" content="de_AT">
+<meta name="twitter:card" content="summary_large_image">
 {% if canonical %}
 <meta property="og:url" content="{{ canonical }}">
 <link rel="canonical" href="{{ canonical }}">
 {% endif %}
 <meta property="og:image" content="{{ origin }}{{ og_image }}">
 <meta name="theme-color" content="{{ theme_color }}">
-<link rel="icon" href="{{ site.logo }}">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/site.css">

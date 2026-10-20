@@ -56,7 +56,15 @@
       $('.i-pause', toggle).toggleAttribute('hidden', userPaused);
       $('.i-play', toggle).toggleAttribute('hidden', !userPaused);
     };
+    // slides 2+ come with data-srcset/data-src (build.py) so they do not compete with the first image
+    const loadRest = () => $$('[data-srcset], [data-src]', hc).forEach(el => {
+      if (el.dataset.srcset) el.srcset = el.dataset.srcset;
+      if (el.dataset.src) el.src = el.dataset.src;
+      el.removeAttribute('data-srcset'); el.removeAttribute('data-src');
+    });
+    if (document.readyState === 'complete') loadRest(); else addEventListener('load', loadRest, { once: true });
     const go = i => {
+      loadRest();
       cur = (i + slides.length) % slides.length;
       [imgs, slides, dots].forEach(list => list.forEach((el, k) => el.classList.toggle('is-on', k === cur)));
       dots.forEach((d, k) => k === cur ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'));

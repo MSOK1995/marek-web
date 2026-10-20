@@ -258,6 +258,7 @@ def render_pages(prod):
 
 def copy_media():
     shutil.copytree(ROOT / "assets", DIST / "assets", ignore=shutil.ignore_patterns("tw-config.js"))
+    shutil.copy2(ROOT / "assets/icons/favicon.ico", DIST / "favicon.ico")  # crawlers also ask for /favicon.ico
     used = " ".join(p.read_text(encoding="utf-8") for p in DIST.rglob("*") if p.suffix in (".html", ".css", ".js"))
     # every referenced image must exist (e.g. a file deleted in the CMS media library)
     missing = sorted({m for m in re.findall(r"/img/([^\"')\s]+)", used) if not (ROOT / "img" / m).is_file()})
@@ -320,12 +321,64 @@ def cap_dpr(sizes):
     return ", ".join(capped + [sizes])
 
 
+PHONE = "(max-width: 600px) and (max-aspect-ratio: 3/5)"  # portrait phones get a narrower crop of hero photos
+PHONE_ASPECT = 0.6
+
+
+def _save_set(im, stem, widths):
+    """AVIF + WebP copies of `im` in the given widths -> (avif srcset, webp srcset)."""
+    avif, webp = [], []
+    for w in widths:
+        scaled = im if w == im.size[0] else im.resize((w, round(im.size[1] * w / im.size[0])), Image.LANCZOS)
+        scaled.save(DIST / "img" / f"{stem}-{w}.avif", "AVIF", quality=60, speed=6)
+        scaled.save(DIST / "img" / f"{stem}-{w}.webp", "WEBP", quality=80, method=6)
+        avif.append(f"/img/{stem}-{w}.avif {w}w")
+        webp.append(f"/img/{stem}-{w}.webp {w}w")
+    return ", ".join(avif), ", ".join(webp)
+
+
+def _attr(name, value):
+    return f' {name}="{value}"' if value else ""
+
+
+def phone_crops(pages):
+    """A full-width hero on a portrait phone shows only a narrow vertical strip of a wide photo, yet `sizes`
+    has to ask for the full width (~2000 px) to keep that strip sharp. A crop as wide as the widest phone
+    hero box (vw/vh up to 3:5) gives the same picture at a third of the bytes. Cropped around the
+    horizontal object-position, so the strip the phone shows stays the same.
+    -> {(src, x): (avif srcset, webp srcset)}"""
+    crops = {}
+    for html in pages:
+        for tag in re.findall(r"<img\s[^>]*data-hero=[^>]*>", html):
+            src = re.search(r'\ssrc="([^"]+)"', tag).group(1)
+            vh = float(re.search(r'\sdata-hero="([\d.]+)"', tag).group(1))
+            pos = re.search(r"object-position:\s*([\d.]+)%", tag)
+            x = float(pos.group(1)) if pos else 50.0
+            path = DIST / src.lstrip("/")
+            if (src, x) in crops or path.suffix.lower() not in (".jpg", ".jpeg"):
+                continue
+            with Image.open(path) as im:
+                im = im.convert("RGB")
+                w, h = im.size
+                cw = round(h * PHONE_ASPECT * 100 / vh)
+                if cw >= w * 0.8:  # hardly narrower: not worth a second set
+                    continue
+                left = round((w - cw) * x / 100)
+                crop = im.crop((left, 0, left + cw, h))
+                stem = f"{path.stem}-m{x:g}"
+                crops[(src, x)] = _save_set(crop, stem, [s for s in WEBP_WIDTHS if s < cw] + [cw])
+    return crops
+
+
 def responsive_images():
     """WebP (and for photos AVIF) copies in several widths for every JPEG/PNG in dist/img, then srcset,
-    width/height on the <img> tags (photos wrapped in <picture>) and a preload for the hero image.
+    width/height on the <img> tags (photos wrapped in <picture>), phone crops of hero photos and a preload
+    for the hero image. data-defer images get data-src/data-srcset instead (site.js loads them later).
     The original file stays as src (fallback)."""
     variants = {}
     count = 0
+    crops = phone_crops([p.read_text(encoding="utf-8") for p in DIST.glob("*.html")])
+    count += sum(len(a.split(",")) * 2 for a, _ in crops.values())
     for img in sorted((DIST / "img").iterdir()):
         if img.suffix.lower() not in (".jpg", ".jpeg", ".png"):
             continue
@@ -357,12 +410,14 @@ def responsive_images():
             count += len(avif)
         variants[f"/img/{img.name}"] = (size, ", ".join(entries), ", ".join(avif))
 
-    def tag(m):
+    def tag(m, preloads):
         t = m.group(0)
         src = re.search(r'\ssrc="([^"]+)"', t)
         if not src or src.group(1) not in variants or "srcset=" in t:
             return t
         (w, h), srcset, avif = variants[src.group(1)]
+        pos = re.search(r"object-position:\s*([\d.]+)%", t)
+        crop = "data-hero=" in t and crops.get((src.group(1), float(pos.group(1)) if pos else 50.0))
         t = fit_sizes(t, w / h)
         z = re.search(r'\ssizes="([^"]*)"', t)
         sizes = cap_dpr(z.group(1) if z else "100vw")
@@ -371,22 +426,37 @@ def responsive_images():
         if "width=" not in t:
             extra += f' width="{w}" height="{h}"'
         t = t[:4] + extra + t[4:]
-        if avif:
-            t = f'<picture><source type="image/avif" srcset="{avif}" sizes="{sizes}">{t}</picture>'
+        # preload the hero: the AVIF set if there is one (browsers without AVIF skip a typed preload)
+        wide = [("image/avif", avif)] if avif else [("", srcset)]
+        if crop:
+            c_avif, c_webp = crop
+            c_sizes = cap_dpr(f"max(100vw, {PHONE_ASPECT * 100:.0f}vh)")  # crop height = hero height, width 0.6 of that
+            sources = [(PHONE, "image/avif", c_avif, c_sizes), (PHONE, "image/webp", c_webp, c_sizes)]
+            sources += [("", "image/avif", avif, sizes)] if avif else []
+            t = "<picture>" + "".join(
+                f'<source{_attr("media", media)} type="{k}" srcset="{s}" sizes="{z}">'
+                for media, k, s, z in sources) + t + "</picture>"
+            if "fetchpriority" in t:
+                preloads.append((PHONE, "image/avif", c_avif, c_sizes))
+                preloads.append((f"not all and {PHONE}", *wide[0], sizes))
+        else:
+            if avif:
+                t = f'<picture><source type="image/avif" srcset="{avif}" sizes="{sizes}">{t}</picture>'
+            if "fetchpriority" in t:
+                preloads.append(("", *wide[0], sizes))
+        if "data-defer" in t:
+            t = re.sub(r"\s(src|srcset)=", r" data-\1=", t.replace(" data-defer", ""))
         return t
 
     for page in DIST.glob("*.html"):
-        html = re.sub(r"<img\s[^>]*>", tag, page.read_text(encoding="utf-8"))
-        # preload the hero: the AVIF set if there is one (browsers without AVIF skip a typed preload)
-        hero = re.search(r'(?:<picture><source type="image/avif" srcset="([^"]+)"[^>]*>)?<img\s[^>]*fetchpriority="high"[^>]*>', html)
-        s = hero and (hero.group(1) or re.search(r'srcset="([^"]+)"', hero.group(0)).group(1))
-        if s:
-            z = re.search(r'sizes="([^"]+)"', hero.group(0))
-            kind = ' type="image/avif"' if hero.group(1) else ""
-            link = (f'<link rel="preload" as="image"{kind} imagesrcset="{s}" '
-                    f'imagesizes="{z.group(1) if z else "100vw"}" fetchpriority="high">\n')
-            anchor = '<link rel="stylesheet" href="/assets/fonts.css">'
-            html = html.replace(anchor, link + anchor, 1)
+        preloads = []
+        html = re.sub(r"<img\s[^>]*>", lambda m: tag(m, preloads), page.read_text(encoding="utf-8"))
+        links = "".join(
+            f'<link rel="preload" as="image"{_attr("media", media)}{_attr("type", kind)} '
+            f'imagesrcset="{s}" imagesizes="{sizes}" fetchpriority="high">\n'
+            for media, kind, s, sizes in preloads)
+        anchor = '<link rel="stylesheet" href="/assets/fonts.css">'
+        html = html.replace(anchor, links + anchor, 1)
         page.write_text(html, encoding="utf-8", newline="\n")
     print("image", count, "webp/avif variants")
 
